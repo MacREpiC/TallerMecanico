@@ -8,7 +8,7 @@ public class Revision {
     private static final float PRECIO_HORA = 30;
     private static final float PRECIO_DIA = 10;
     private static final float PRECIO_MATERIAL = 1.5f;
-    private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private int horas;
@@ -23,7 +23,7 @@ public class Revision {
     }
 
     public Revision(Revision revision) {
-        Objects.requireNonNull(revision, "La revision no puede ser nula.");
+        Objects.requireNonNull(revision, "La revisión no puede ser nula.");
         setCliente(revision.getCliente());
         setVehiculo(revision.getVehiculo());
         setFechaInicio(revision.getFechaInicio());
@@ -44,7 +44,7 @@ public class Revision {
     }
 
     private void setVehiculo(Vehiculo vehiculo) {
-        Objects.requireNonNull(vehiculo, "El vehículo no puede ser nulo");
+        Objects.requireNonNull(vehiculo, "El vehículo no puede ser nulo.");
         this.vehiculo = vehiculo;
     }
 
@@ -72,7 +72,7 @@ public class Revision {
 
     public void anadirHoras(int horas){
         if(horas <= 0){
-            throw new IllegalArgumentException("La hora no puede ser menor o igual a cero.");
+            throw new IllegalArgumentException("Las horas a añadir deben ser mayores que cero.");
         }
         this.horas += horas;
     }
@@ -89,12 +89,12 @@ public class Revision {
     }
 
     public boolean estaCerrada(){
-        return fechaFin != null;
+        return fechaFin == null;
     }
 
     public void cerrar(LocalDate fechaFin){
         if(!fechaFin.isAfter(fechaInicio)){
-            throw new IllegalArgumentException("La fecha final tiene que ser posterior a la de inicio");
+            throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio.");
         }
         this.fechaFin = fechaFin;
     }
