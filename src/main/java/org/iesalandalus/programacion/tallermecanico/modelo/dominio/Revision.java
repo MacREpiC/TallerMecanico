@@ -1,5 +1,6 @@
 package org.iesalandalus.programacion.tallermecanico.modelo.dominio;
 
+import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -35,7 +36,7 @@ public class Revision {
     }
 
     private void setCliente(Cliente cliente) {
-        Objects.requireNonNull(cliente, "El cliente no puede ser nulo");
+        Objects.requireNonNull(cliente, "El cliente no puede ser nulo.");
         this.cliente = cliente;
     }
 
@@ -53,7 +54,10 @@ public class Revision {
     }
 
     private void setFechaInicio(LocalDate fechaInicio) {
-        Objects.requireNonNull(fechaInicio, "La fecha de inicio no puede ser nula");
+        Objects.requireNonNull(fechaInicio, "La fecha de inicio no puede ser nula.");
+        if(fechaInicio.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha de inicio no puede ser futura.");
+        }
         this.fechaInicio = fechaInicio;
     }
 
@@ -62,7 +66,12 @@ public class Revision {
     }
 
     private void setFechaFin(LocalDate fechaFin) {
-        Objects.requireNonNull(fechaFin, "La fecha final no puede ser nula");
+        Objects.requireNonNull(fechaFin, "La fecha de fin no puede ser nula.");
+        if(fechaFin.isBefore(fechaInicio)) {
+            throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio.");
+        }else if(fechaFin.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha de fin no puede ser futura.");
+        }
         this.fechaFin = fechaFin;
     }
 
@@ -70,9 +79,12 @@ public class Revision {
         return horas;
     }
 
-    public void anadirHoras(int horas){
+    public void anadirHoras(int horas) throws OperationNotSupportedException {
         if(horas <= 0){
             throw new IllegalArgumentException("Las horas a añadir deben ser mayores que cero.");
+        }
+        if (estaCerrada()) {
+            throw new OperationNotSupportedException("No se puede añadir horas, ya que la revisión está cerrada.");
         }
         this.horas += horas;
     }
@@ -81,36 +93,33 @@ public class Revision {
         return precioMaterial;
     }
 
-    public void anadirPrecioMaterial(float precioMaterial){
+    public void anadirPrecioMaterial(float precioMaterial) throws OperationNotSupportedException {
         if(precioMaterial <= 0){
-            throw new IllegalArgumentException("El precio material no puede ser menor o igual a cero.");
+            throw new IllegalArgumentException("El precio del material a añadir debe ser mayor que cero.");
+        }
+        if (estaCerrada()) {
+            throw new OperationNotSupportedException("No se puede añadir precio del material, ya que la revisión está cerrada.");
         }
         this.precioMaterial += precioMaterial;
     }
 
     public boolean estaCerrada(){
-        return fechaFin == null;
+        return fechaFin != null;
     }
 
-    public void cerrar(LocalDate fechaFin){
-        if(!fechaFin.isAfter(fechaInicio)){
-            throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio.");
+    public void cerrar(LocalDate fechaFin) throws OperationNotSupportedException {
+        if (estaCerrada()) {
+            throw new OperationNotSupportedException("La revisión ya está cerrada.");
         }
-        this.fechaFin = fechaFin;
+        setFechaFin(fechaFin);
     }
 
     public float getPrecio(){
-        long dias = fechaInicio.until(fechaFin).getDays();
-        /*
-        El método until() devuelve un periodo, representando la diferencia en años,
-        meses y días entre dos fechas. Luego, `getDays()`
-        obtiene el número de días de ese período.
-         */
-        return (horas * PRECIO_HORA) + (dias * PRECIO_DIA);
+        return (getHoras() * PRECIO_HORA) + (getDias() * PRECIO_DIA) + (int) precioMaterial;
     }
 
     private float getDias(){
-        return (float) horas / 24;
+        return (float) getHoras() / 24;
     }
 
     @Override
@@ -128,13 +137,6 @@ public class Revision {
 
     @Override
     public String toString() {
-        return "Revision{" +
-                "fechaInicio=" + fechaInicio +
-                ", fechaFin=" + fechaFin +
-                ", horas=" + horas +
-                ", precioMaterial=" + precioMaterial +
-                ", cliente=" + cliente +
-                ", vehiculo=" + vehiculo +
-                '}';
+        return cliente + " - " + vehiculo + ": (" + fechaInicio.format(FORMATO_FECHA) + " - ), " + horas + " horas, " + String.format("%.2f", getPrecioMaterial()) + " € en material.";
     }
 }
