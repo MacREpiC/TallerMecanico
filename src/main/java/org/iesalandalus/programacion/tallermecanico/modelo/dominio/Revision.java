@@ -3,13 +3,14 @@ package org.iesalandalus.programacion.tallermecanico.modelo.dominio;
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class Revision {
     private static final float PRECIO_HORA = 30;
     private static final float PRECIO_DIA = 10;
     private static final float PRECIO_MATERIAL = 1.5f;
-    public static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private int horas;
@@ -21,14 +22,20 @@ public class Revision {
         setCliente(cliente);
         setVehiculo(vehiculo);
         setFechaInicio(fechaInicio);
+        fechaFin = null;
+        fechaInicio = null;
+        horas = 0;
+        precioMaterial = 0;
     }
 
     public Revision(Revision revision) {
         Objects.requireNonNull(revision, "La revisión no puede ser nula.");
-        setCliente(revision.getCliente());
-        setVehiculo(revision.getVehiculo());
-        setFechaInicio(revision.getFechaInicio());
-        setFechaFin(revision.getFechaFin());
+        cliente = new Cliente(revision.cliente);
+        vehiculo = revision.vehiculo;
+        horas = revision.horas;
+        fechaFin = revision.fechaFin;
+        fechaInicio = revision.fechaInicio;
+        precioMaterial = revision.precioMaterial;
     }
 
     public Cliente getCliente() {
@@ -115,11 +122,15 @@ public class Revision {
     }
 
     public float getPrecio(){
-        return (getHoras() * PRECIO_HORA) + (getDias() * PRECIO_DIA) + (int) precioMaterial;
+        float precioFijo = PRECIO_DIA * getDias() + PRECIO_HORA * getHoras();
+        float precioEspecificado = PRECIO_MATERIAL * precioMaterial;
+        return precioFijo + precioEspecificado;
+
     }
 
     private float getDias(){
-        return (float) getHoras() / 24;
+
+        return (estaCerrada()) ? ChronoUnit.DAYS.between(fechaInicio, fechaFin) : 0;
     }
 
     @Override
@@ -137,6 +148,12 @@ public class Revision {
 
     @Override
     public String toString() {
-        return cliente + " - " + vehiculo + ": (" + fechaInicio.format(FORMATO_FECHA) + " - ), " + horas + " horas, " + String.format("%.2f", getPrecioMaterial()) + " € en material.";
+        String cadenaADevolver;
+        if (!estaCerrada()) {
+            cadenaADevolver = String.format("%s - %s: (%s - ), %d horas, %.2f € en material", cliente, vehiculo, fechaInicio.format(FORMATO_FECHA), horas, getPrecio());
+        } else {
+            cadenaADevolver = String.format("%s - %s: (%s - %s), %d horas, %.2f € en material, %.2f € total", cliente, vehiculo, fechaInicio.format(FORMATO_FECHA), fechaFin.format(FORMATO_FECHA), horas, getPrecioMaterial(), getPrecio());
+        }
+        return cadenaADevolver;
     }
 }
