@@ -18,13 +18,15 @@ public enum Opcion {
     BORRAR_REVISION(12,". Borrar revisión."),
     LISTAR_REVISIONES(13,". Listar revisiones."),
     LISTAR_REVISIONES_CLIENTE(14,". Listar revisiones cliente."),
-    LISTAR_REVISIONES_VEHICULO(15,". Listar revisiones vehúclo."),
-    CERRAR_REVISION(16,". Cerra revisión."),
-    SALIR(17,". Salir.");
+    LISTAR_REVISIONES_VEHICULO(15,". Listar revisiones vehículo."),
+    ANADIR_HORAS_REVISION(16, ". Añadir horas a la revisión."),
+    ANADIR_PRECIO_MATERIAL_REVISION(17, ". Añadir precio material a la revision."),
+    CERRAR_REVISION(18,". Cerra revisión."),
+    SALIR(19,". Salir.");
 
     int numeroOpcion;
-    String mensaje;
-    static Map<Integer, Opcion> opciones;
+    final String mensaje;
+    static final Map<Integer, Opcion> opciones;
 
     static{
         opciones = new HashMap<>();

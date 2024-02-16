@@ -5,18 +5,17 @@ import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Revision;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Consola {
     private static final String CADENA_FORMATO_FECHA = "\\d{2}/\\d{2}/\\d{4}";
-    public void mostraCabecera(String mensaje){
+    public static void mostraCabecera(String mensaje){
         System.out.println(mensaje);
         System.out.println("-".repeat(mensaje.length()));
     }
-    public void mostrarMenu(){
+    public static void mostrarMenu(){
         System.out.println("----Opciones----");
         System.out.println(Opcion.opciones);
     }
@@ -53,7 +52,7 @@ public class Consola {
         return fecha;
     }
 
-    public Opcion elegirOpcion(){
+    public static Opcion elegirOpcion(){
         int numeroOpcion;
         while (true) {
             System.out.print("Introduce el número de la opción: ");
@@ -66,55 +65,55 @@ public class Consola {
         }
     }
 
-    public  Cliente leerCliente(){
+    public static Cliente leerCliente(){
         String nombre = Consola.leerCadena("Introduce un nombre válido: ");
         String dni = Consola.leerCadena("Introduce un DNI válido: ");
         String telefono = Consola.leerCadena("Introduce un teléfono válido: ");
         return new Cliente(nombre, dni, telefono);
     }
 
-    public Cliente leerClienteDni(){
+    public static Cliente leerClienteDni(){
         String dni = Consola.leerCadena("Introduce el DNI: ");
         return Cliente.get(dni);
     }
 
-    public String leerNuevoNombre(){
+    public static String leerNuevoNombre(){
         return leerCadena("Introduce el nuevo nombre del cliente:");
     }
 
-    public String leerNuevoTelefono(){
+    public static String leerNuevoTelefono(){
         return leerCadena("Introduce el nuevo teléfono del cliente:");
     }
 
-    public Vehiculo leerVehiculo(){
+    public static Vehiculo leerVehiculo(){
         String marca = leerCadena("Introduce una marca válida: ");
         String modelo = leerCadena("Introduce un modelo válido: ");
         String matricula = leerCadena("Introduce una matrícula válida: ");
         return new Vehiculo(marca, modelo, matricula);
     }
 
-    public Vehiculo leerVehiculoMatricula(){
+    public static Vehiculo leerVehiculoMatricula(){
         String matricula = Consola.leerCadena("Introduce la matrícula: ");
         return Vehiculo.get(matricula);
     }
 
-    public Revision leerRevision(){
+    public static Revision leerRevision(){
         Cliente cliente = leerClienteDni();
         Vehiculo vehiculo = leerVehiculoMatricula();
         LocalDate fechaInicio = leerFecha("Introduce la fecha de inicio: ");
         return new Revision(cliente, vehiculo, fechaInicio);
     }
 
-    public int leerHoras(){
+    public static int leerHoras(){
         return leerEntero("Introduce el número de horas correspondientes: ");
     }
 
-    public float leerPrecioMaterial(){
+    public static float leerPrecioMaterial(){
         System.out.print("Introduce su correspondiente precio material: ");
         return Entrada.real();
     }
 
-    public LocalDate leerFechaCierre(){
+    public static LocalDate leerFechaCierre(){
         return leerFecha("Introduce la fecha de cierre de la revisión: ");
     }
 }
