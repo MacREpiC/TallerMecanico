@@ -30,8 +30,8 @@ public enum Opcion {
 
     static{
         opciones = new HashMap<>();
-        for( Opcion opcion : Opcion.values()){
-            opciones.put(opcion.numeroOpcion, opcion);
+        for (int i = 0; i < Opcion.values().length; i++) {
+            opciones.put(i, Opcion.values()[i]);
         }
     }
     Opcion(int numeroOpcion, String mensaje){

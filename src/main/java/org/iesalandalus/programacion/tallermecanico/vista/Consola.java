@@ -16,8 +16,10 @@ public class Consola {
         System.out.println("-".repeat(mensaje.length()));
     }
     public static void mostrarMenu(){
-        System.out.println("----Opciones----");
-        System.out.println(Opcion.opciones);
+        mostraCabecera("----OPCIONES----");
+        for (int i = 0; i < Opcion.values().length; i++) {
+            System.out.println(Opcion.values()[i]);
+        }
     }
 
     private static float leerReal(String mensaje){

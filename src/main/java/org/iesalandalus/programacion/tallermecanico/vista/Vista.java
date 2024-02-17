@@ -19,12 +19,12 @@ public class Vista {
     }
 
     public void comenzar() {
-        Opcion opcion = null;
-        while (opcion != Opcion.SALIR) {
+        Opcion opcion;
+        do {
             Consola.mostrarMenu();
             opcion = Consola.elegirOpcion();
             ejecutar(opcion);
-        }
+        } while (opcion != Opcion.SALIR);
     }
 
     public void terminar() {
@@ -201,7 +201,7 @@ public class Vista {
 
     private void listarRevisiones() {
         Consola.mostraCabecera("LISTAR REVISIONES");
-        List<Revision> listaRevisiones = contolador.getRevisiones();
+        List<Revision> listaRevisiones = contolador.getRevision();
         if (listaRevisiones.isEmpty()) {
             System.out.println("La lista de revisiones está vacía.");
         } else {
@@ -211,7 +211,7 @@ public class Vista {
 
     private void listarRevisionesCliente() {
         Consola.mostraCabecera("LISTAR REVISIONES");
-        List<Revision> listaRevisiones = contolador.getRevisiones();
+        List<Revision> listaRevisiones = contolador.getRevisiones(Consola.leerClienteDni());
         if (listaRevisiones.isEmpty()) {
             System.out.println("La lista de vehículos está vacía.");
         } else {
@@ -221,7 +221,7 @@ public class Vista {
 
     private void listarRevisionesVehiculo() {
         Consola.mostraCabecera("LISTAR REVISIONES VEHÍCULO");
-        List<Revision> listaRevisionesVehiclos = contolador.getRevisiones();
+        List<Revision> listaRevisionesVehiclos = contolador.getRevisiones(Consola.leerVehiculoMatricula());
         if (listaRevisionesVehiclos.isEmpty()){
             System.out.println("La lista de revisiones de este vehículo está vacía");
         } else {

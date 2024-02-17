@@ -94,7 +94,7 @@ public class Controlador {
         return modelo.getVehiculos();
     }
 
-    public List<Revision> getRevisiones() {
+    public List<Revision> getRevision() {
         return modelo.getRevisiones();
     }
 
