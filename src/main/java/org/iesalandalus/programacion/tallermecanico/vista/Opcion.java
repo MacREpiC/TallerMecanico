@@ -34,7 +34,7 @@ public enum Opcion {
             opciones.put(opcion.numeroOpcion, opcion);
         }
     }
-    private Opcion(int numeroOpcion, String mensaje){
+    Opcion(int numeroOpcion, String mensaje){
         this.mensaje = mensaje;
         esValida(numeroOpcion);
     }
