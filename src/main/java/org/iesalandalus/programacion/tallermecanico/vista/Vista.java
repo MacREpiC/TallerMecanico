@@ -6,7 +6,6 @@ import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Revision;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
 
 import javax.naming.OperationNotSupportedException;
-import javax.sound.midi.SysexMessage;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,7 +50,7 @@ public class Vista {
             case LISTAR_REVISIONES_VEHICULO -> listarRevisionesVehiculo();
             case ANADIR_HORAS_REVISION -> anadirHoras();
             case ANADIR_PRECIO_MATERIAL_REVISION -> anadirPrecioMaterial();
-            case CERRAR_REVISION -> cerrar();
+            case CERRAR_REVISION -> cerrarRevision();
             case SALIR -> salir();
             default -> throw new IllegalArgumentException("La opción introducida no es válida.");
         }
@@ -115,7 +114,7 @@ public class Vista {
         Consola.mostraCabecera("MODIFICAR CLIENTE");
         boolean esModificado = false;
         try {
-            contolador.modificar(Consola.leerClienteDni(), Consola.leerNuevoNombre(), Consola.leerNuevoTelefono());
+            esModificado = contolador.modificar(Consola.leerClienteDni(), Consola.leerNuevoNombre(), Consola.leerNuevoTelefono());
         } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -160,6 +159,24 @@ public class Vista {
         }
     }
 
+    private void borrarVehiculo() {
+        Consola.mostraCabecera("BORRAR VEHÍCULO");
+        try {
+            contolador.borrar(Consola.leerVehiculo());
+        } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void borrarRevision() {
+        Consola.mostraCabecera("BORRAR REVISIÓN");
+        try {
+            contolador.borrar(Consola.leerRevision());
+        } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     private void listarClientes() {
         Consola.mostraCabecera("LISTAR CLIENTES");
         List<Cliente> listaClientes = contolador.getClientes();
@@ -180,6 +197,18 @@ public class Vista {
         }
     }
 
+
+
+    private void listarRevisiones() {
+        Consola.mostraCabecera("LISTAR REVISIONES");
+        List<Revision> listaRevisiones = contolador.getRevisiones();
+        if (listaRevisiones.isEmpty()) {
+            System.out.println("La lista de revisiones está vacía.");
+        } else {
+            System.out.println(listaRevisiones);
+        }
+    }
+
     private void listarRevisionesCliente() {
         Consola.mostraCabecera("LISTAR REVISIONES");
         List<Revision> listaRevisiones = contolador.getRevisiones();
@@ -190,15 +219,19 @@ public class Vista {
         }
     }
 
-    private void listarRevisiones() {
-        Consola.mostraCabecera("LISTAR REVISIONES");
-        List<Revision> listaRevisiones = contolador.getRevisiones();
-        if (listaRevisiones.isEmpty()) {
-            System.out.println("La lista de vehículos está vacía.");
+    private void listarRevisionesVehiculo() {
+        Consola.mostraCabecera("LISTAR REVISIONES VEHÍCULO");
+        List<Revision> listaRevisionesVehiclos = contolador.getRevisiones();
+        if (listaRevisionesVehiclos.isEmpty()){
+            System.out.println("La lista de revisiones de este vehículo está vacía");
         } else {
-            System.out.println(listaRevisiones);
+            System.out.println(listaRevisionesVehiclos);
         }
     }
 
+    private void salir(){
+        Consola.mostraCabecera("SALIR");
+        contolador.terminar();
+    }
 
 }
