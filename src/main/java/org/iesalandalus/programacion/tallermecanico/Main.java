@@ -3,11 +3,6 @@ package org.iesalandalus.programacion.tallermecanico;
 import org.iesalandalus.programacion.tallermecanico.controlador.Controlador;
 import org.iesalandalus.programacion.tallermecanico.modelo.Modelo;
 import org.iesalandalus.programacion.tallermecanico.vista.Vista;
-import org.iesalandalus.programacion.utilidades.Entrada;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class Main {
     public static void main(String[] args) {

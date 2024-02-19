@@ -1,6 +1,7 @@
 package org.iesalandalus.programacion.tallermecanico.vista;
 
 import org.iesalandalus.programacion.tallermecanico.controlador.Controlador;
+import org.iesalandalus.programacion.tallermecanico.modelo.Modelo;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Revision;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
@@ -60,15 +61,17 @@ public class Vista {
         Consola.mostraCabecera("INSERTAR CLIENTE");
         try {
             contolador.insertar(Consola.leerCliente());
+            System.out.println("Cliente insertado correctamente.");
         } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
     }
 
     private void insertarVehiculo() {
-        Consola.mostraCabecera("INSERTAR CLIENTE");
+        Consola.mostraCabecera("INSERTAR VEHICULO");
         try {
             contolador.insertar(Consola.leerVehiculo());
+            System.out.println("Vehículo insertado correctamente.");
         } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -78,6 +81,7 @@ public class Vista {
         Consola.mostraCabecera("INSERTAR REVISIÓN");
         try {
             contolador.insertar(Consola.leerRevision());
+            System.out.println("Revisión insertada correctamente.");
         } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -86,7 +90,12 @@ public class Vista {
     private void buscarCliente() {
         Consola.mostraCabecera("BUSCAR CLIENTE");
         try {
-            contolador.buscar(Consola.leerCliente());
+            Cliente cliente = contolador.buscar(Consola.leerClienteDni());
+            if(cliente == null){
+                System.out.println("El cliente no existe");
+            }else{
+                System.out.println("Se ha encontrado el cliente "+ cliente.getNombre());
+            }
         } catch (IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -95,7 +104,12 @@ public class Vista {
     private void buscarVehiculo() {
         Consola.mostraCabecera("BUSCAR VEHÍCULO");
         try {
-            contolador.buscar(Consola.leerRevision());
+            Vehiculo vehiculo = contolador.buscar(Consola.leerVehiculoMatricula());
+            if(vehiculo == null){
+                System.out.println("El vehiculo con la matrícula introducida no existe.");
+            }else{
+                System.out.println("Se ha encontrado un vehículo con la matrícula " + vehiculo.matricula());
+            }
         } catch (IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -104,7 +118,12 @@ public class Vista {
     private void buscarRevision() {
         Consola.mostraCabecera("BUSCAR REVISIÓN");
         try {
-            contolador.buscar(Consola.leerRevision());
+            Revision revision = contolador.buscar(Consola.leerRevision());
+            if(revision == null){
+                System.out.println("La revisión introducida no existe.");
+            }else{
+                System.out.println("Se ha encontrado la revisión: " + revision);
+            }
         } catch (IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -115,6 +134,7 @@ public class Vista {
         boolean esModificado = false;
         try {
             esModificado = contolador.modificar(Consola.leerClienteDni(), Consola.leerNuevoNombre(), Consola.leerNuevoTelefono());
+            System.out.println("Cliente modificado.");
         } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -127,6 +147,7 @@ public class Vista {
         Consola.mostraCabecera("AÑADIR HORAS");
         try {
             contolador.anadirHoras(Consola.leerRevision(), Consola.leerHoras());
+            System.out.println("Horas añadidas correctamente.");
         } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -136,6 +157,7 @@ public class Vista {
         Consola.mostraCabecera("AÑADIR PRECIO MATERIAL");
         try {
             contolador.anadirPrecioMaterial(Consola.leerRevision(), Consola.leerPrecioMaterial());
+            System.out.println("Precio añadido correctamente.");
         } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -145,6 +167,7 @@ public class Vista {
         Consola.mostraCabecera("CERRAR REVISIÓN");
         try {
             contolador.cerrar(Consola.leerRevision(), Consola.leerFechaCierre());
+            System.out.println("Revisión cerrada correctamente.");
         } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -154,6 +177,7 @@ public class Vista {
         Consola.mostraCabecera("BORRAR CLIENTE");
         try {
             contolador.borrar(Consola.leerClienteDni());
+            System.out.println("Cliente borrado correctamente.");
         } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -162,7 +186,8 @@ public class Vista {
     private void borrarVehiculo() {
         Consola.mostraCabecera("BORRAR VEHÍCULO");
         try {
-            contolador.borrar(Consola.leerVehiculo());
+            contolador.borrar(Consola.leerVehiculoMatricula());
+            System.out.println("Vehículo borrado correctamente.");
         } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -172,6 +197,7 @@ public class Vista {
         Consola.mostraCabecera("BORRAR REVISIÓN");
         try {
             contolador.borrar(Consola.leerRevision());
+            System.out.println("Revisión borrada correctamente.");
         } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -196,8 +222,6 @@ public class Vista {
             System.out.println(listaVehiculos);
         }
     }
-
-
 
     private void listarRevisiones() {
         Consola.mostraCabecera("LISTAR REVISIONES");
@@ -233,5 +257,4 @@ public class Vista {
         Consola.mostraCabecera("SALIR");
         contolador.terminar();
     }
-
 }

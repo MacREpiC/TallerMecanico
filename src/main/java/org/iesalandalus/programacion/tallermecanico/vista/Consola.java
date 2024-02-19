@@ -8,48 +8,46 @@ import org.iesalandalus.programacion.utilidades.Entrada;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.regex.Pattern;
 
 public class Consola {
-    private static final String CADENA_FORMATO_FECHA = "\\d{2}/\\d{2}/\\d{4}";
+    private static final String CADENA_FORMATO_FECHA = "dd/MM/yyyy";
     public static void mostraCabecera(String mensaje){
+        System.out.println(/*ESPACIO*/);
         System.out.println(mensaje);
         System.out.println("-".repeat(mensaje.length()));
     }
     public static void mostrarMenu(){
-        mostraCabecera("----OPCIONES----");
+        mostraCabecera("OPCIONES");
         for (int i = 0; i < Opcion.values().length; i++) {
             System.out.println(Opcion.values()[i]);
         }
     }
 
     private static float leerReal(String mensaje){
-        System.out.println(mensaje);
+        System.out.print(mensaje);
         return Entrada.real();
     }
 
     private static int leerEntero(String mensaje){
-        System.out.println(mensaje);
+        System.out.print(mensaje);
         return Entrada.entero();
     }
 
     private static String leerCadena(String mensaje){
-        System.out.println(mensaje);
+        System.out.print(mensaje);
         return Entrada.cadena();
     }
 
     private static LocalDate leerFecha(String mensaje) {
-        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        Pattern patron = Pattern.compile(CADENA_FORMATO_FECHA);
+        DateTimeFormatter comparador = DateTimeFormatter.ofPattern(String.valueOf(patron));
         LocalDate fecha = null;
-        String fechaTexto = null;
-        while (fecha == null) {
-            System.out.println(mensaje);
-            System.out.println("Por favor, introduce una fecha en el formato dd/MM/yyyy:");
-            fechaTexto = Entrada.cadena();
-            try {
-                fecha = LocalDate.parse(fechaTexto, formatoFecha);
-            } catch (DateTimeParseException e) {
-                System.out.println("Fecha no válida. Por favor, vuelve a intentarlo.");
-            }
+        try {
+            String cadenaFecha = leerCadena(mensaje);
+            fecha = LocalDate.parse(cadenaFecha, comparador);
+        } catch (DateTimeParseException e) {
+            System.out.println("La fecha introducida no es válida, inténtelo de nuevo.");
         }
         return fecha;
     }
@@ -111,8 +109,7 @@ public class Consola {
     }
 
     public static float leerPrecioMaterial(){
-        System.out.print("Introduce su correspondiente precio material: ");
-        return Entrada.real();
+        return leerReal("Introduce su correspondiente precio material: ");
     }
 
     public static LocalDate leerFechaCierre(){

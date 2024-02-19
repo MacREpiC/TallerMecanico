@@ -30,13 +30,13 @@ public enum Opcion {
 
     static{
         opciones = new HashMap<>();
-        for (int i = 0; i < Opcion.values().length; i++) {
-            opciones.put(i, Opcion.values()[i]);
+        for (Opcion opcion : values()) {
+            opciones.put(opcion.numeroOpcion ,opcion);
         }
     }
     Opcion(int numeroOpcion, String mensaje){
         this.mensaje = mensaje;
-        esValida(numeroOpcion);
+        this.numeroOpcion = numeroOpcion;
     }
     public static boolean esValida(int numeroOpcion){
         if(!opciones.containsKey(numeroOpcion)){
