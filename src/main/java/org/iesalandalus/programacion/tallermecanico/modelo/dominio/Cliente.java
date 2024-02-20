@@ -2,7 +2,7 @@ package org.iesalandalus.programacion.tallermecanico.modelo.dominio;
 
 import java.util.Objects;
 public class Cliente {
-    public static final String ER_NOMBRE = "(?:[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]+[ ]?)+";
+    public static final String ER_NOMBRE = "(?:[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+[ ]?)+";
     public static final String ER_DNI = "(\\d{8})([A-Z])";
     public static final String ER_TELEFONO = "(\\d{9})";
     private String nombre;

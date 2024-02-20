@@ -11,6 +11,9 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
 public class Consola {
+    private Consola(){
+
+    }
     private static final String CADENA_FORMATO_FECHA = "dd/MM/yyyy";
     public static void mostraCabecera(String mensaje){
         System.out.println(/*ESPACIO*/);
@@ -109,7 +112,7 @@ public class Consola {
     }
 
     public static float leerPrecioMaterial(){
-        return leerReal("Introduce su correspondiente precio material: ");
+        return leerReal("Introduce el precio material: ");
     }
 
     public static LocalDate leerFechaCierre(){

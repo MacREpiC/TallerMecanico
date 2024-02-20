@@ -24,8 +24,8 @@ public enum Opcion {
     CERRAR_REVISION(18,". Cerra revisión."),
     SALIR(19,". Salir.");
 
-    int numeroOpcion;
-    final String mensaje;
+    private final int numeroOpcion;
+    private final String mensaje;
     static final Map<Integer, Opcion> opciones;
 
     static{
@@ -39,12 +39,12 @@ public enum Opcion {
         this.numeroOpcion = numeroOpcion;
     }
     public static boolean esValida(int numeroOpcion){
-        if(!opciones.containsKey(numeroOpcion)){
-            throw new IllegalArgumentException("Opción no válida");
-        }
-        return true;
+        return opciones.containsKey(numeroOpcion);
     }
     public Opcion get(int numeroOpcion){
+        if (!esValida(numeroOpcion)){
+            throw new IllegalArgumentException("Opción no válida.");
+        }
         return opciones.get(numeroOpcion);
     }
 

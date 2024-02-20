@@ -59,15 +59,13 @@ public class Revisiones {
             if (!revision.estaCerrada()) {
                 if (revision.getCliente().equals(cliente)) {
                     throw new OperationNotSupportedException("El cliente tiene otra revisión en curso.");
-                }
-                if (revision.getVehiculo().equals(vehiculo)) {
+                } else if (revision.getVehiculo().equals(vehiculo)) {
                     throw new OperationNotSupportedException("El vehículo está actualmente en revisión.");
                 }
             } else {
                 if (revision.getCliente().equals(cliente) && !fechaRevision.isAfter(revision.getFechaFin())) {
                     throw new OperationNotSupportedException("El cliente tiene una revisión posterior.");
-                }
-                if (revision.getVehiculo().equals(vehiculo) && !fechaRevision.isAfter(revision.getFechaFin())) {
+                } else if (revision.getVehiculo().equals(vehiculo) && !fechaRevision.isAfter(revision.getFechaFin())) {
                     throw new OperationNotSupportedException("El vehículo tiene una revisión posterior.");
                 }
             }
