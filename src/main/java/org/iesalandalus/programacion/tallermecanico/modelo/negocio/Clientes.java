@@ -32,7 +32,6 @@ public class Clientes {
         listaClientes.add(cliente);
     }
 
-
     public void borrar(Cliente cliente) throws OperationNotSupportedException {
         Objects.requireNonNull(cliente, "No se puede borrar un cliente nulo.");
         if(buscar(cliente) == null){

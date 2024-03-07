@@ -32,10 +32,6 @@ public record Vehiculo(String marca, String modelo, String matricula) {
         }
     }
     public static Vehiculo get(String matricula) {
-        Objects.requireNonNull(matricula, "La matrícula no puede ser nula.");
-        if (!matricula.matches(ER_MATRICULA)) {
-            throw new IllegalArgumentException("La matrícula no tiene un formato válido.");
-        }
         return new Vehiculo("Seat", "Altea", matricula);
     }
 

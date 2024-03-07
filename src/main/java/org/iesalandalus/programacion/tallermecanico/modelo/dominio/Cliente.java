@@ -2,9 +2,9 @@ package org.iesalandalus.programacion.tallermecanico.modelo.dominio;
 
 import java.util.Objects;
 public class Cliente {
-    public static final String ER_NOMBRE = "(?:[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+[ ]?)+";
-    public static final String ER_DNI = "(\\d{8})([A-Z])";
-    public static final String ER_TELEFONO = "(\\d{9})";
+    private static final String ER_NOMBRE = "(?:[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+[ ]?)+";
+    private static final String ER_DNI = "(\\d{8})([A-Z])";
+    private static final String ER_TELEFONO = "(\\d{9})";
     private String nombre;
     private String dni;
     private String telefono;
@@ -62,11 +62,6 @@ public class Cliente {
         return telefono;
     }
     public static Cliente get(String dni){
-        Objects.requireNonNull(dni, "El DNI no puede ser nulo.");
-        if (!dni.matches(ER_DNI)) {
-            throw new IllegalArgumentException("El DNI no tiene un formato válido.");
-        }
-
         return new Cliente("Patricio", dni, "912912912");
     }
 
