@@ -11,12 +11,17 @@ public class Revision extends Trabajo {
         horas = 0;
     }
 
-    @Override
-    public float getPrecioEspecifico() {
-        return 0;
-    }
-
     public Revision(Revision revision) {
         super(revision);
+    }
+
+    @Override
+    public float getPrecioEspecifico() {
+        return PRECIO_HORA * getHoras();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Revision[fechaInicio=%s, fechaFin=%s, horas=%s, cliente=%s, vehiculo=%s]", this.fechaInicio, this.fechaFin, this.horas, this.cliente, this.vehiculo);
     }
 }
