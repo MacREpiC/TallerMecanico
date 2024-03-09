@@ -24,7 +24,7 @@ public class Mecanico extends Trabajo {
         return precioMaterial;
     }
 
-    public void anadirPreciomateria(float precioMaterial) throws OperationNotSupportedException {
+    public void anadirPrecioMaterial(float precioMaterial) throws OperationNotSupportedException {
         if(precioMaterial <= 0){
             throw new IllegalArgumentException("El precio del material a añadir debe ser mayor que cero.");
         }
