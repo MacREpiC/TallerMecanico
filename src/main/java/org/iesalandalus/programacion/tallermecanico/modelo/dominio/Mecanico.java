@@ -29,7 +29,7 @@ public class Mecanico extends Trabajo {
             throw new IllegalArgumentException("El precio del material a añadir debe ser mayor que cero.");
         }
         if (estaCerrado()) {
-            throw new OperationNotSupportedException("No se puede añadir precio del material, ya que la revisión está cerrada.");
+            throw new OperationNotSupportedException("No se puede añadir precio del material, ya que el trabajo mecánico está cerrado.");
         }
         this.precioMaterial += precioMaterial;
     }
@@ -41,6 +41,12 @@ public class Mecanico extends Trabajo {
 
     @Override
     public String toString() {
-        return String.format("Mecanico[FACTOR_HORA=%s, FACTOR_PRECIO_MATERIAL=%s, precioMaterial=%s, fechaInicio=%s, fechaFin=%s, horas=%s, cliente=%s, vehiculo=%s]", this.FACTOR_HORA, this.FACTOR_PRECIO_MATERIAL, this.precioMaterial, this.fechaInicio, this.fechaFin, this.horas, this.cliente, this.vehiculo);
+        String cadenaADevolver;
+        if (!estaCerrado()) {
+            cadenaADevolver = String.format("Mecánico -> %s - %s (%s - ): %d horas, %.2f € en material", cliente, vehiculo, fechaInicio.format(FORMATO_FECHA), horas, getPrecioMaterial());
+        } else {
+            cadenaADevolver = String.format("Mecánico -> %s - %s (%s - %s): %d horas, %.2f € en material, %.2f € total", cliente, vehiculo, fechaInicio.format(FORMATO_FECHA), fechaFin.format(FORMATO_FECHA), horas, getPrecioMaterial(), getPrecio());
+        }
+        return cadenaADevolver;
     }
 }
