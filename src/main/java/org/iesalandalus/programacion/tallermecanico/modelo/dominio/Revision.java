@@ -22,6 +22,12 @@ public class Revision extends Trabajo {
 
     @Override
     public String toString() {
-        return String.format("Revision[fechaInicio=%s, fechaFin=%s, horas=%s, cliente=%s, vehiculo=%s]", this.fechaInicio, this.fechaFin, this.horas, this.cliente, this.vehiculo);
+        String cadenaADevolver;
+        if (!estaCerrado()) {
+            cadenaADevolver = String.format("Revisión -> %s - %s (%s - ): %d horas", cliente, vehiculo, fechaInicio.format(FORMATO_FECHA), horas);
+        } else {
+            cadenaADevolver = String.format("Revisión -> %s - %s (%s - %s): %d horas, %.2f € total", cliente, vehiculo, fechaInicio.format(FORMATO_FECHA), fechaFin.format(FORMATO_FECHA), horas, getPrecio());
+        }
+        return cadenaADevolver;
     }
 }
