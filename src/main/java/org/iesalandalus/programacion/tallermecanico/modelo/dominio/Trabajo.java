@@ -15,31 +15,34 @@ public abstract class Trabajo {
     protected Cliente cliente;
     protected Vehiculo vehiculo;
 
-    public Trabajo(Cliente cliente, Vehiculo vehiculo, LocalDate fechaInicio){
+    protected Trabajo(Cliente cliente, Vehiculo vehiculo, LocalDate fechaInicio){
         setCliente(cliente);
         setVehiculo(vehiculo);
         setFechaInicio(fechaInicio);
+        horas = 0;
     }
 
-    public Trabajo(Trabajo trabajo){
-        Objects.requireNonNull(trabajo, "No puede ser nulo el trabajo");
-        this.cliente = trabajo.cliente;
+    protected Trabajo(Trabajo trabajo){
+        Objects.requireNonNull(trabajo, "El trabajo no puede ser nulo.");
+        this.cliente = new Cliente(cliente);
         this.vehiculo = trabajo.vehiculo;
         this.fechaInicio = trabajo.fechaInicio;
         this.fechaFin = trabajo.fechaFin;
+        this.horas = trabajo.horas;
+
     }
 
-    public Trabajo copiar(Trabajo trabajo){
-        if(trabajo instanceof Revision) {
-            return new Revision((Revision) trabajo);
-        } else if (trabajo instanceof Mecanico) {
-            return new Mecanico((Mecanico) trabajo);
-        } else {
-            throw new IllegalArgumentException("Tipo de trabajo desconocido: " + trabajo.getClass().getSimpleName());
+    public static Trabajo copiar(Trabajo trabajo){
+        Objects.requireNonNull(trabajo, "El trabajo no puede ser nulo.");
+        if(trabajo instanceof Revision revision) {
+            trabajo = new Revision(revision);
+        } else if (trabajo instanceof Mecanico mecanico) {
+            trabajo = new Mecanico(mecanico);
         }
+        return trabajo;
     }
 
-    public Trabajo get(Vehiculo vehiculo) {
+    public static Trabajo get(Vehiculo vehiculo) {
         return new Revision(new Cliente("Alejandro", "123456789A", "678897823"), vehiculo, LocalDate.now());
     }
 
@@ -95,24 +98,24 @@ public abstract class Trabajo {
         if (horas <= 0) {
             throw new IllegalArgumentException("Las horas a añadir deben ser mayores que cero.");
         }
-        if (estaCerrada()) {
-            throw new OperationNotSupportedException("No se puede añadir horas, ya que la revisión está cerrada.");
+        if (estaCerrado()) {
+            throw new OperationNotSupportedException("No se puede añadir horas, ya que el trabajo está cerrado.");
         }
         this.horas += horas;
     }
 
-    public boolean estaCerrada() {
+    public boolean estaCerrado() {
         return fechaFin != null;
     }
 
     public void cerrar(LocalDate fechaFin) throws OperationNotSupportedException {
-        if (estaCerrada()) {
-            throw new OperationNotSupportedException("La revisión ya está cerrada.");
+        if (estaCerrado()) {
+            throw new OperationNotSupportedException("El trabajo ya está cerrado.");
         }
         setFechaFin(fechaFin);
     }
 
-    private float getPrecio() {
+    public float getPrecio() {
         float precioFijo = FACTOR_DIA * getDias();
         float precioEspecifico = getPrecioEspecifico();
         return precioFijo + precioEspecifico;
@@ -121,6 +124,24 @@ public abstract class Trabajo {
     public abstract float getPrecioEspecifico();
 
     private float getDias() {
-        return (estaCerrada()) ? ChronoUnit.DAYS.between(fechaInicio, fechaFin) : 0;
+        return (estaCerrado()) ? ChronoUnit.DAYS.between(fechaInicio, fechaFin) : 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Trabajo trabajo = (Trabajo) o;
+        return horas == trabajo.horas && Objects.equals(fechaInicio, trabajo.fechaInicio) && Objects.equals(cliente, trabajo.cliente) && Objects.equals(vehiculo, trabajo.vehiculo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fechaInicio, horas, cliente, vehiculo);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Trabajo[fechaInicio=%s, fechaFin=%s, horas=%s, cliente=%s, vehiculo=%s]", this.fechaInicio, this.fechaFin, this.horas, this.cliente, this.vehiculo);
     }
 }

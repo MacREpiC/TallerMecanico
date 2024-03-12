@@ -28,7 +28,7 @@ public class Mecanico extends Trabajo {
         if(precioMaterial <= 0){
             throw new IllegalArgumentException("El precio del material a añadir debe ser mayor que cero.");
         }
-        if (estaCerrada()) {
+        if (estaCerrado()) {
             throw new OperationNotSupportedException("No se puede añadir precio del material, ya que la revisión está cerrada.");
         }
         this.precioMaterial += precioMaterial;
