@@ -52,41 +52,61 @@ public class Trabajos implements ITrabajos {
 
     private void comprobarTrabajo(Cliente cliente, Vehiculo vehiculo, LocalDate fechaRevision) throws OperationNotSupportedException {
         for(Trabajo revision : coleccionesTrabajos){
-            if (!revision.estaCerrada()) {
+            if (!revision.estaCerrado()) {
                 if (revision.getCliente().equals(cliente)) {
-                    throw new OperationNotSupportedException("El cliente tiene otra revisión en curso.");
+                    throw new OperationNotSupportedException("El cliente tiene otro trabajo en curso.");
                 } else if (revision.getVehiculo().equals(vehiculo)) {
-                    throw new OperationNotSupportedException("El vehículo está actualmente en revisión.");
+                    throw new OperationNotSupportedException("El vehículo está actualmente en el taller.");
                 }
             } else {
                 if (revision.getCliente().equals(cliente) && !fechaRevision.isAfter(revision.getFechaFin())) {
-                    throw new OperationNotSupportedException("El cliente tiene una revisión posterior.");
+                    throw new OperationNotSupportedException("El cliente tiene otro trabajo posterior.");
                 } else if (revision.getVehiculo().equals(vehiculo) && !fechaRevision.isAfter(revision.getFechaFin())) {
-                    throw new OperationNotSupportedException("El vehículo tiene una revisión posterior.");
+                    throw new OperationNotSupportedException("El vehículo tiene otro trabajo posterior.");
                 }
             }
         }
+    }
+
+    @Override
+    public void anadirHoras(Trabajo trabajo, int horas) throws OperationNotSupportedException {
+        Objects.requireNonNull(trabajo, "No puedo añadir horas a un trabajo nulo.");
+        getTrabajoAbierto(trabajo.getVehiculo()).anadirHoras(horas);
     }
 
     private Trabajo getTrabajoAbierto(Vehiculo vehiculo) throws OperationNotSupportedException {
         for (Trabajo revision : coleccionesTrabajos) {
-            if (revision.getVehiculo().equals(vehiculo) && !revision.estaCerrada()) {
+            if (revision.getVehiculo().equals(vehiculo) && !revision.estaCerrado()) {
                 return revision;
             }
         }
-        throw new OperationNotSupportedException("No se encontró un trabajo abierto para el vehículo indicado.");
+        throw new OperationNotSupportedException("No existe ningún trabajo abierto para dicho vehículo.");
     }
 
     @Override
     public void anadirPrecioMaterial(Trabajo trabajo, float precioMaterial) throws OperationNotSupportedException {
-        Mecanico revisionAbierta = (Mecanico) getTrabajoAbierto(trabajo.getVehiculo());
-        revisionAbierta.anadirPrecioMaterial(precioMaterial);
+        Objects.requireNonNull(trabajo, "No puedo añadir precio del material a un trabajo nulo.");
+        if(trabajo.estaCerrado()){
+            throw new OperationNotSupportedException("El trabajo está cerrado");
+        }
+        if(buscar(trabajo) instanceof Mecanico mecanico){
+            mecanico.anadirPrecioMaterial(precioMaterial);
+        }else if(buscar(trabajo) instanceof Revision){
+            throw new OperationNotSupportedException("No se puede añadir precio al material para este tipo de trabajos.");
+        }else if(buscar(trabajo) == null){
+            throw new OperationNotSupportedException("No existe ningún trabajo abierto para dicho vehículo.");
+        }
     }
 
     @Override
     public void cerrar(Trabajo trabajo, LocalDate fechaFin) throws OperationNotSupportedException {
-        Trabajo revisionAbierta = getTrabajoAbierto(trabajo.getVehiculo());
-        revisionAbierta.cerrar(fechaFin);
+        Objects.requireNonNull(trabajo, "No puedo cerrar un trabajo nulo.");
+        if(trabajo.estaCerrado()){
+            throw new OperationNotSupportedException("El trabajo ya está cerrado");
+        }else{
+            Trabajo revisionAbierta = getTrabajoAbierto(trabajo.getVehiculo());
+            revisionAbierta.cerrar(fechaFin);
+        }
     }
 
     @Override
@@ -99,11 +119,11 @@ public class Trabajos implements ITrabajos {
     }
 
     @Override
-    public void borrar(Revision revision) throws OperationNotSupportedException {
-        Objects.requireNonNull(revision, "No se puede borrar una revisión nula.");
-        if(buscar(revision) == null){
-            throw new OperationNotSupportedException("No existe ninguna revisión igual.");
+    public void borrar(Trabajo trabajo) throws OperationNotSupportedException {
+        Objects.requireNonNull(trabajo, "No se puede borrar un trabajo nulo.");
+        if(buscar(trabajo) == null){
+            throw new OperationNotSupportedException("No existe ningún trabajo igual.");
         }
-        coleccionesTrabajos.remove(revision);
+        coleccionesTrabajos.remove(trabajo);
     }
 }
