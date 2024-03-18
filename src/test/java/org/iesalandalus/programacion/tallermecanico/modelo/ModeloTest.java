@@ -1,6 +1,5 @@
 package org.iesalandalus.programacion.tallermecanico.modelo;
 
-import org.iesalandalus.programacion.tallermecanico.modelo.cascada.ModeloCascada;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.*;
 import org.iesalandalus.programacion.tallermecanico.modelo.negocio.*;
 import org.iesalandalus.programacion.tallermecanico.modelo.negocio.memoria.Clientes;
@@ -28,7 +27,7 @@ class ModeloTest {
     @Mock
     private static ITrabajos trabajos;
     @InjectMocks
-    private ModeloCascada modelo = FabricaModelo.CASCADA.crear(FabricaFuenteDatos.MEMORIA);
+    private Modelo modelo = FabricaModelo.CASCADA.crear(FabricaFuenteDatos.MEMORIA);
 
     private static Cliente cliente;
     private static Vehiculo vehiculo;

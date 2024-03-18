@@ -51,10 +51,14 @@ public class ModeloCascada implements Modelo {
     @Override
     public void insertar(Trabajo trabajo) throws OperationNotSupportedException {
         Objects.requireNonNull(trabajo, "El trabajo no puede ser nulo.");
-        if(trabajo instanceof Revision revision){
-            trabajos.insertar(revision);
-        } else if(trabajo instanceof Mecanico mecanico){
-            trabajos.insertar(mecanico);
+        Cliente clienteBuscar = clientes.buscar(trabajo.getCliente());
+        Vehiculo vehiculoBuscar = vehiculos.buscar(trabajo.getVehiculo());
+        if(clienteBuscar != null && vehiculoBuscar != null){
+            if(trabajo instanceof Revision){
+                trabajos.insertar(new Revision(clienteBuscar, vehiculoBuscar, trabajo.getFechaInicio()));
+            } else if(trabajo instanceof Mecanico){
+                trabajos.insertar(new Mecanico(clienteBuscar, vehiculoBuscar, trabajo.getFechaInicio()));
+            }
         }
     }
 
@@ -146,5 +150,27 @@ public class ModeloCascada implements Modelo {
             }
         }
         return trabajosExistentes;
+    }
+
+    @Override
+    public List<Trabajo> getTrabajos(Cliente cliente){
+        List<Trabajo> trabajosExistentesDeUnCliente = new ArrayList<>();
+        for (Trabajo trabajo : trabajos.get(cliente)){
+            if(trabajo.getCliente().equals(cliente)) {
+                trabajosExistentesDeUnCliente.add(Trabajo.copiar(trabajo));
+            }
+        }
+        return trabajosExistentesDeUnCliente;
+    }
+
+    @Override
+    public List<Trabajo> getTrabajos(Vehiculo vehiculo){
+        List<Trabajo> trabajosExistentesDeUnVehiculo = new ArrayList<>();
+        for (Trabajo trabajo : trabajos.get(vehiculo)){
+            if(trabajo.getVehiculo().equals(vehiculo)) {
+                trabajosExistentesDeUnVehiculo.add(Trabajo.copiar(trabajo));
+            }
+        }
+        return trabajosExistentesDeUnVehiculo;
     }
 }
