@@ -3,6 +3,7 @@ package org.iesalandalus.programacion.tallermecanico.vista;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Revision;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
+import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
 import java.time.LocalDate;
@@ -22,8 +23,8 @@ public class Consola {
     }
     public static void mostrarMenu(){
         mostraCabecera("OPCIONES");
-        for (int i = 0; i < Opcion.values().length; i++) {
-            System.out.println(Opcion.values()[i]);
+        for (int i = 0; i < Evento.values().length; i++) {
+            System.out.println(Evento.values()[i]);
         }
     }
 
@@ -55,13 +56,13 @@ public class Consola {
         return fecha;
     }
 
-    public static Opcion elegirOpcion(){
+    public static Evento elegirOpcion(){
         int numeroOpcion;
         while (true) {
             System.out.print("Introduce el número de la opción: ");
             numeroOpcion = Entrada.entero();
-            if (Opcion.esValida(numeroOpcion)) {
-                return Opcion.opciones.get(numeroOpcion);
+            if (Evento.esValida(numeroOpcion)) {
+                return Evento.opciones.get(numeroOpcion);
             } else {
                 System.out.println("Opción no válida. Por favor, vuelve a intentarlo.");
             }
