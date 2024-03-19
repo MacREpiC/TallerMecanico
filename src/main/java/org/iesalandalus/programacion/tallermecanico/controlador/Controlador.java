@@ -1,17 +1,18 @@
 package org.iesalandalus.programacion.tallermecanico.controlador;
 
 import org.iesalandalus.programacion.tallermecanico.modelo.cascada.ModeloCascada;
-import org.iesalandalus.programacion.tallermecanico.vista.Vista;
+import org.iesalandalus.programacion.tallermecanico.vista.texto.VistaTexto;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
 
+import javax.naming.OperationNotSupportedException;
 import java.util.Objects;
 
 public class Controlador implements IControlador {
-
     private final Vista vista;
     private final ModeloCascada modelo;
 
-    public Controlador(ModeloCascada modelo, Vista vista) {
+
+    public Controlador(ModeloCascada modelo, VistaTexto vista) {
         Objects.requireNonNull(modelo, "El modelo no puede ser nulo.");
         Objects.requireNonNull(vista, "La vista no puede ser nula.");
         this.modelo = modelo;
@@ -31,7 +32,11 @@ public class Controlador implements IControlador {
     }
 
     @Override
-    public void actualizar(Evento evento){
-        
+    public void actualizar(Evento evento) throws OperationNotSupportedException {
+        switch (evento){
+            case INSERTAR_CLIENTE -> modelo.insertar(vista.leerCliente());
+            case BUSCAR_CLIENTE -> modelo.buscar(vista.leerCliente());
+            case
+        }
     }
 }

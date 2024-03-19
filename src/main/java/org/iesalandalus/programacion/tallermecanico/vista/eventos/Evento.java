@@ -24,32 +24,32 @@ public enum Evento {
     CERRAR_REVISION(18,". Cerra revisión."),
     SALIR(19,". Salir.");
 
-    private final int numeroOpcion;
-    private final String mensaje;
-    static final Map<Integer, Evento> opciones;
+    private final int codigo;
+    private final String texto;
+    static final Map<Integer, Evento> eventos;
 
     static{
-        opciones = new HashMap<>();
+        eventos = new HashMap<>();
         for (Evento opcion : values()) {
-            opciones.put(opcion.numeroOpcion ,opcion);
+            eventos.put(opcion.codigo,opcion);
         }
     }
-    Evento(int numeroOpcion, String mensaje){
-        this.mensaje = mensaje;
-        this.numeroOpcion = numeroOpcion;
+    Evento(int codigo, String texto){
+        this.texto = texto;
+        this.codigo = codigo;
     }
-    public static boolean esValida(int numeroOpcion){
-        return opciones.containsKey(numeroOpcion);
+    public static boolean esValido(int numeroOpcion){
+        return eventos.containsKey(numeroOpcion);
     }
-    public Evento get(int numeroOpcion){
-        if (!esValida(numeroOpcion)){
+    public static Evento get(int codigo){
+        if (!esValido(codigo)){
             throw new IllegalArgumentException("Opción no válida.");
         }
-        return opciones.get(numeroOpcion);
+        return eventos.get(codigo);
     }
 
     @Override
     public String toString() {
-        return String.format("%d-%s", this.numeroOpcion, this.mensaje);
+        return String.format("%d-%s", this.codigo, this.texto);
     }
 }
