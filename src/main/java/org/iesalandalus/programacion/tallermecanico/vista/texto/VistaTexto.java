@@ -1,37 +1,37 @@
 package org.iesalandalus.programacion.tallermecanico.vista.texto;
 
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.*;
-import org.iesalandalus.programacion.tallermecanico.modelo.negocio.memoria.Trabajos;
-import org.iesalandalus.programacion.tallermecanico.modelo.negocio.memoria.Vehiculos;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.GestorEventos;
 
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 
-public class VistaTexto {
+public class VistaTexto{
+    public static final String DNI_EJEMPLO = "12345678D";
+    public static final String MATRICULA_DEFECTO = "1234BCD";
+    private GestorEventos gestorEventos = new GestorEventos(Evento.values());
 
     public GestorEventos getGestorEventos() {
         return gestorEventos;
     }
 
-    public void comenzar() {
+    public void comenzar() throws OperationNotSupportedException {
         Evento evento;
         do {
             Consola.mostrarMenu();
             evento = Consola.elegirOpcion();
-            Consola.mostrarCabecera();
             ejecutar(evento);
         } while (evento != Evento.SALIR);
         terminar();
     }
 
-    public void terminar() {
-        System.out.printf("¡HASTA PRONTO!%n");
+    private void ejecutar(Evento opcion) throws OperationNotSupportedException {
+        getGestorEventos().notificar(opcion);
     }
 
-    private void ejecutar(Evento opcion) {
-        getGestorEventos().notificar(opcion);
+    public void terminar() {
+        System.out.printf("¡HASTA PRONTO!%n");
     }
 
     public Cliente leerCliente() {
@@ -42,7 +42,7 @@ public class VistaTexto {
                 cliente = new Cliente(Consola.leerCadena("Dime el nombre del cliente: "), Consola.leerCadena("Dime el dni del cliente: "), Consola.leerCadena("Dime el teléfono del cliente: "));
                 clienteCorrecto = true;
             } catch (IllegalArgumentException | NullPointerException e) {
-                System.out.println(e.getMessage());
+                System.out.printf(e.getMessage());
             }
         } while (!clienteCorrecto);
         return cliente;
@@ -56,7 +56,7 @@ public class VistaTexto {
                 cliente = new Cliente(Cliente.get(Consola.leerCadena("Dime el DNI del cliente: ")));
                 clienteCorrecto = true;
             } catch (IllegalArgumentException | NullPointerException e) {
-                System.out.println(e.getMessage());
+                System.out.printf(e.getMessage());
             }
         } while (!clienteCorrecto);
         return cliente;
@@ -72,7 +72,7 @@ public class VistaTexto {
                     new Cliente(nombre, VistaTexto.DNI_EJEMPLO, "600600600");
                     nombreCorrecto = true;
                 } catch (IllegalArgumentException | NullPointerException e) {
-                    System.out.println(e.getMessage());
+                    System.out.printf(e.getMessage());
                 }
             } else {
                 nombreCorrecto = true;
@@ -85,13 +85,13 @@ public class VistaTexto {
         String telefono;
         boolean telefonoCorrecto = false;
         do {
-            telefono = Consola.leerCadena("Dime el nuevo telefono del cliente: ");
+            telefono = Consola.leerCadena("Dime el nuevo teléfono del cliente: ");
             if (!telefono.isBlank()) {
                 try {
                     new Cliente("Juan", VistaTexto.DNI_EJEMPLO, telefono);
                     telefonoCorrecto = true;
                 } catch (IllegalArgumentException | NullPointerException e) {
-                    System.out.println(e.getMessage());
+                    System.out.printf(e.getMessage());
                 }
             } else {
                 telefonoCorrecto = true;
@@ -110,7 +110,7 @@ public class VistaTexto {
                 vehiculo = new Vehiculo(Consola.leerCadena("Dime la marca del vehículo: "), Consola.leerCadena("Dime el modelo del vehículo: "), Consola.leerCadena("Dime la matrícula del vehículo: "));
                 vehiculoCorrecto = true;
             } catch (IllegalArgumentException | NullPointerException e) {
-                System.out.println(e.getMessage());
+                System.out.printf(e.getMessage());
             }
         } while (!vehiculoCorrecto);
         return vehiculo;
@@ -124,7 +124,7 @@ public class VistaTexto {
                 vehiculo = Vehiculo.get(Consola.leerCadena("Dime la matrícula del vehículo: "));
                 vehiculoCorrecto = true;
             } catch (IllegalArgumentException | NullPointerException e) {
-                System.out.println(e.getMessage());
+                System.out.printf(e.getMessage());
             }
         } while (!vehiculoCorrecto);
         return vehiculo;
@@ -139,7 +139,7 @@ public class VistaTexto {
                 revision = new Revision(leerClienteDni(), leerVehiculoMatricula(), Consola.leerFecha("Dime la fecha de inicio del trabajo: "));
                 trabajoCorrecto = true;
             } catch (IllegalArgumentException | NullPointerException e) {
-                System.out.println(e.getMessage());
+                System.out.printf(e.getMessage());
             }
         } while (!trabajoCorrecto);
         return revision;
@@ -154,7 +154,7 @@ public class VistaTexto {
                 mecanico = new Mecanico(leerClienteDni(), leerVehiculoMatricula(), Consola.leerFecha("Dime la fecha de inicio del trabajo: "));
                 trabajoCorrecto = true;
             } catch (IllegalArgumentException | NullPointerException e) {
-                System.out.println(e.getMessage());
+                System.out.printf(e.getMessage());
             }
         } while (!trabajoCorrecto);
         return mecanico;
@@ -174,7 +174,7 @@ public class VistaTexto {
                 revision.anadirHoras(horas);
                 horasCorrectas = true;
             } catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
-                System.out.println(e.getMessage());
+                System.out.printf(e.getMessage());
             }
         } while (!horasCorrectas);
         return horas;
@@ -190,7 +190,7 @@ public class VistaTexto {
                 mecanico.anadirPrecioMaterial(precioMaterial);
                 precioCorrecto = true;
             } catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
-                System.out.println(e.getMessage());
+                System.out.printf(e.getMessage());
             }
         } while (!precioCorrecto);
         return precioMaterial;
@@ -206,10 +206,22 @@ public class VistaTexto {
                 revision.cerrar(fechaCierre);
                 fechaCierreCorrecta = true;
             } catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
-                System.out.println(e.getMessage());
+                System.out.printf(e.getMessage());
             }
         } while (!fechaCierreCorrecta);
         return fechaCierre;
     }
 
+    public void mostrarCliente(Cliente cliente){
+
+    }
+
+    public void notificarResultado(Evento evento, String texto, boolean exito){
+        Consola.mostraCabecera(evento.toString());
+        if(exito){
+            System.out.printf(texto);
+        }else{
+            System.out.printf("ERROR: %s%n", texto);
+        }
+    }
 }

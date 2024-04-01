@@ -1,6 +1,7 @@
 package org.iesalandalus.programacion.tallermecanico.controlador;
 
 import org.iesalandalus.programacion.tallermecanico.modelo.cascada.ModeloCascada;
+import org.iesalandalus.programacion.tallermecanico.vista.Vista;
 import org.iesalandalus.programacion.tallermecanico.vista.texto.VistaTexto;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
 
@@ -20,7 +21,7 @@ public class Controlador implements IControlador {
     }
 
     @Override
-    public void comenzar() {
+    public void comenzar() throws OperationNotSupportedException {
         modelo.comenzar();
         vista.comenzar();
     }
@@ -33,10 +34,14 @@ public class Controlador implements IControlador {
 
     @Override
     public void actualizar(Evento evento) throws OperationNotSupportedException {
-        switch (evento){
-            case INSERTAR_CLIENTE -> modelo.insertar(vista.leerCliente());
-            case BUSCAR_CLIENTE -> modelo.buscar(vista.leerCliente());
-            case
-        }
+        try {
+            switch (evento){
+                case INSERTAR_CLIENTE -> modelo.insertar(vista.leerCliente());
+                case BUSCAR_CLIENTE -> modelo.buscar(vista.leerCliente());
+                case BORRAR_CLIENTE -> modelo.borrar(vista.leerCliente());
+                case LISTAR_CLIENTES -> vista.mostrar
+            }
+        } catch ()
+
     }
 }
