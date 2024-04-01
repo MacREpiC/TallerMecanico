@@ -6,16 +6,18 @@ import org.iesalandalus.programacion.tallermecanico.vista.eventos.GestorEventos;
 
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 
-public class VistaTexto{
-    public static final String DNI_EJEMPLO = "12345678D";
-    public static final String MATRICULA_DEFECTO = "1234BCD";
+public class VistaTexto implements org.iesalandalus.programacion.tallermecanico.vista.Vista {
     private GestorEventos gestorEventos = new GestorEventos(Evento.values());
 
+    @Override
     public GestorEventos getGestorEventos() {
         return gestorEventos;
     }
 
+    @Override
     public void comenzar() throws OperationNotSupportedException {
         Evento evento;
         do {
@@ -30,10 +32,12 @@ public class VistaTexto{
         getGestorEventos().notificar(opcion);
     }
 
+    @Override
     public void terminar() {
         System.out.printf("¡HASTA PRONTO!%n");
     }
 
+    @Override
     public Cliente leerCliente() {
         Cliente cliente = null;
         boolean clienteCorrecto = false;
@@ -48,6 +52,7 @@ public class VistaTexto{
         return cliente;
     }
 
+    @Override
     public Cliente leerClienteDni() {
         Cliente cliente = null;
         boolean clienteCorrecto = false;
@@ -62,6 +67,7 @@ public class VistaTexto{
         return cliente;
     }
 
+    @Override
     public String leerNuevoNombre() {
         String nombre;
         boolean nombreCorrecto = false;
@@ -81,6 +87,7 @@ public class VistaTexto{
         return nombre;
     }
 
+    @Override
     public String leerNuevoTelefono() {
         String telefono;
         boolean telefonoCorrecto = false;
@@ -101,6 +108,7 @@ public class VistaTexto{
         return telefono;
     }
 
+    @Override
     public Vehiculo leerVehiculo() {
         Vehiculo vehiculo = null;
         boolean vehiculoCorrecto = false;
@@ -116,6 +124,7 @@ public class VistaTexto{
         return vehiculo;
     }
 
+    @Override
     public Vehiculo leerVehiculoMatricula() {
         Vehiculo vehiculo = null;
         boolean vehiculoCorrecto = false;
@@ -130,6 +139,7 @@ public class VistaTexto{
         return vehiculo;
     }
 
+    @Override
     public Trabajo leerRevision() {
         Revision revision = null;
         boolean trabajoCorrecto = false;
@@ -145,6 +155,7 @@ public class VistaTexto{
         return revision;
     }
 
+    @Override
     public Trabajo leerMecanico() {
         Trabajo mecanico = null;
         boolean trabajoCorrecto = false;
@@ -160,10 +171,12 @@ public class VistaTexto{
         return mecanico;
     }
 
+    @Override
     public Trabajo leerTrabajoVehiculo() {
         return Trabajo.get(leerVehiculo());
     }
 
+    @Override
     public int leerHoras() {
         int horas;
         boolean horasCorrectas = false;
@@ -180,6 +193,7 @@ public class VistaTexto{
         return horas;
     }
 
+    @Override
     public float leerPrecioMaterial() {
         float precioMaterial;
         boolean precioCorrecto = false;
@@ -196,6 +210,7 @@ public class VistaTexto{
         return precioMaterial;
     }
 
+    @Override
     public LocalDate leerFechaCierre() {
         LocalDate fechaCierre;
         boolean fechaCierreCorrecta = false;
@@ -212,16 +227,49 @@ public class VistaTexto{
         return fechaCierre;
     }
 
-    public void mostrarCliente(Cliente cliente){
-
-    }
-
+    @Override
     public void notificarResultado(Evento evento, String texto, boolean exito){
         Consola.mostraCabecera(evento.toString());
         if(exito){
-            System.out.printf(texto);
+            System.out.printf("%s%n", texto);
         }else{
             System.out.printf("ERROR: %s%n", texto);
         }
+    }
+
+    @Override
+    public void mostrarCliente(Cliente cliente) {
+        Objects.requireNonNull(cliente, "El cliente no puede ser nulo.");
+        System.out.printf("%s%n", cliente);
+    }
+
+    @Override
+    public void mostrarVehiculo(Vehiculo vehiculo) {
+        Objects.requireNonNull(vehiculo, "El vehiculo no puede ser nulo.");
+        System.out.printf("%s%n", vehiculo);
+    }
+
+    @Override
+    public void mostrarTrabajo(Trabajo trabajo) {
+        Objects.requireNonNull(trabajo, "El vehiculo no puede ser nulo.");
+        System.out.printf("%s%n", trabajo);
+    }
+
+    @Override
+    public void mostrarClientes(List<Cliente> clientes) {
+        Objects.requireNonNull(clientes, "Los clientes no pueden ser nulos.");
+        System.out.printf("%s%n", clientes);
+    }
+
+    @Override
+    public void mostrarVehiculos(List<Vehiculo> vehiculos) {
+        Objects.requireNonNull(vehiculos, "Los vehículos no pueden ser nulos.");
+        System.out.printf("%s%n", vehiculos);
+    }
+
+    @Override
+    public void mostrarTrabajos(List<Trabajo> trabajos) {
+        Objects.requireNonNull(trabajos, "Los trabajos no pueden ser nulos.");
+        System.out.printf("%s%n", trabajos);
     }
 }

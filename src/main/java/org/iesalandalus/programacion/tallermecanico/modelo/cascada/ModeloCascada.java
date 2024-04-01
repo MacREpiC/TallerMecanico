@@ -136,7 +136,7 @@ public class ModeloCascada implements Modelo {
 
     @Override
     public List<Vehiculo> getVehiculos() {
-        return vehiculos.get();
+        return new ArrayList<>(vehiculos.get());
     }
 
     @Override
