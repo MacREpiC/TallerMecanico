@@ -1,22 +1,17 @@
 package org.iesalandalus.programacion.tallermecanico.vista;
 
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Trabajo;
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
+import org.iesalandalus.programacion.tallermecanico.modelo.dominio.*;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.GestorEventos;
 
-import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.util.List;
 
 public interface Vista {
-    String DNI_EJEMPLO = "12345678D";
-    String MATRICULA_DEFECTO = "1234BCD";
 
     GestorEventos getGestorEventos();
 
-    void comenzar() throws OperationNotSupportedException;
+    void comenzar();
 
     void terminar();
 
@@ -56,5 +51,9 @@ public interface Vista {
 
     void mostrarVehiculos(List<Vehiculo> vehiculos);
 
-    void mostrarTrabajos(List<Trabajo> trabajos);
+    void mostrarTrabajos(List<Trabajo> trabajoes);
+
+    void mostrarTrabajosCliente(List<Trabajo> trabajosCliente);
+
+    void mostrarTrabajosVehiculo(List<Trabajo> trabajosVehiculo);
 }

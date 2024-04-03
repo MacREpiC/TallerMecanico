@@ -3,29 +3,28 @@ package org.iesalandalus.programacion.tallermecanico.modelo.dominio;
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 
-public class Mecanico extends Trabajo {
-    private float FACTOR_HORA = 30f;
-    private float FACTOR_PRECIO_MATERIAL = 1.5f;
-    private float precioMaterial;
+public class Mecanico extends Trabajo{
 
-    public Mecanico(Cliente cliente, Vehiculo vehiculo, LocalDate fechaInicio){
+    private static final float FACTOR_HORA = 30F;
+    private static final float FACTOR_PRECIO_MATERIAL = 1.5F;
+    protected float precioMaterial;
+
+    public Mecanico(Cliente cliente, Vehiculo vehiculo, LocalDate fechaInicio) {
         super(cliente, vehiculo, fechaInicio);
-        fechaFin = null;
-        horas = 0;
         precioMaterial = 0;
     }
 
     public Mecanico(Mecanico mecanico) {
         super(mecanico);
-        this.precioMaterial = mecanico.precioMaterial;
+        precioMaterial = mecanico.precioMaterial;
     }
 
-    public float getPrecioMaterial(){
+    public float getPrecioMaterial() {
         return precioMaterial;
     }
 
     public void anadirPrecioMaterial(float precioMaterial) throws OperationNotSupportedException {
-        if(precioMaterial <= 0){
+        if (precioMaterial <= 0) {
             throw new IllegalArgumentException("El precio del material a añadir debe ser mayor que cero.");
         }
         if (estaCerrado()) {
@@ -36,17 +35,18 @@ public class Mecanico extends Trabajo {
 
     @Override
     public float getPrecioEspecifico() {
-        return (FACTOR_HORA * getHoras()) + (FACTOR_PRECIO_MATERIAL * precioMaterial);
+        return (estaCerrado()) ? FACTOR_HORA * getHoras() + FACTOR_PRECIO_MATERIAL * getPrecioMaterial() : 0;
     }
 
     @Override
     public String toString() {
-        String cadenaADevolver;
+        String cadena;
         if (!estaCerrado()) {
-            cadenaADevolver = String.format("Mecánico -> %s - %s (%s - ): %d horas, %.2f € en material", cliente, vehiculo, fechaInicio.format(FORMATO_FECHA), horas, getPrecioMaterial());
+            cadena = String.format("Mecánico -> %s - %s (%s - ): %d horas, %.2f € en material", cliente, vehiculo, fechaInicio.format(FORMATO_FECHA), horas, precioMaterial);
         } else {
-            cadenaADevolver = String.format("Mecánico -> %s - %s (%s - %s): %d horas, %.2f € en material, %.2f € total", cliente, vehiculo, fechaInicio.format(FORMATO_FECHA), fechaFin.format(FORMATO_FECHA), horas, getPrecioMaterial(), getPrecio());
+            cadena = String.format("Mecánico -> %s - %s (%s - %s): %d horas, %.2f € en material, %.2f € total", cliente, vehiculo, fechaInicio.format(FORMATO_FECHA), fechaFin.format(FORMATO_FECHA), horas, precioMaterial, getPrecio());
         }
-        return cadenaADevolver;
+        return cadena;
     }
+
 }

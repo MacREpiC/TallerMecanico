@@ -1,16 +1,16 @@
 package org.iesalandalus.programacion.tallermecanico.vista.texto;
 
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.*;
+import org.iesalandalus.programacion.tallermecanico.vista.Vista;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.GestorEventos;
 
-import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
-public class VistaTexto implements org.iesalandalus.programacion.tallermecanico.vista.Vista {
-    private GestorEventos gestorEventos = new GestorEventos(Evento.values());
+public class VistaTexto implements Vista {
+
+    private final GestorEventos gestorEventos = new GestorEventos(Evento.values());
 
     @Override
     public GestorEventos getGestorEventos() {
@@ -18,258 +18,174 @@ public class VistaTexto implements org.iesalandalus.programacion.tallermecanico.
     }
 
     @Override
-    public void comenzar() throws OperationNotSupportedException {
-        Evento evento;
+    public void comenzar() {
+        Evento opcion;
         do {
             Consola.mostrarMenu();
-            evento = Consola.elegirOpcion();
-            ejecutar(evento);
-        } while (evento != Evento.SALIR);
-        terminar();
+            opcion = Consola.elegirOpcion();
+            ejecutar(opcion);
+        } while (opcion != Evento.SALIR);
     }
 
-    private void ejecutar(Evento opcion) throws OperationNotSupportedException {
-        getGestorEventos().notificar(opcion);
+    private void ejecutar(Evento opcion) {
+        Consola.mostrarCabecera(opcion.toString());
+        gestorEventos.notificar(opcion);
     }
 
     @Override
     public void terminar() {
-        System.out.printf("¡HASTA PRONTO!%n");
+        System.out.println("¡¡¡Hasta luego Lucasss!!!");
     }
 
     @Override
     public Cliente leerCliente() {
-        Cliente cliente = null;
-        boolean clienteCorrecto = false;
-        do {
-            try {
-                cliente = new Cliente(Consola.leerCadena("Dime el nombre del cliente: "), Consola.leerCadena("Dime el dni del cliente: "), Consola.leerCadena("Dime el teléfono del cliente: "));
-                clienteCorrecto = true;
-            } catch (IllegalArgumentException | NullPointerException e) {
-                System.out.printf(e.getMessage());
-            }
-        } while (!clienteCorrecto);
-        return cliente;
+        String nombre = Consola.leerCadena("Introduce el nombre: ");
+        String dni = Consola.leerCadena("Introduce el DNI: ");
+        String telefono = Consola.leerCadena("Introduce el teléfono: ");
+        return new Cliente(nombre, dni, telefono);
     }
 
     @Override
     public Cliente leerClienteDni() {
-        Cliente cliente = null;
-        boolean clienteCorrecto = false;
-        do {
-            try {
-                cliente = new Cliente(Cliente.get(Consola.leerCadena("Dime el DNI del cliente: ")));
-                clienteCorrecto = true;
-            } catch (IllegalArgumentException | NullPointerException e) {
-                System.out.printf(e.getMessage());
-            }
-        } while (!clienteCorrecto);
-        return cliente;
+        return Cliente.get(Consola.leerCadena("Introduce el DNI: "));
     }
 
     @Override
     public String leerNuevoNombre() {
-        String nombre;
-        boolean nombreCorrecto = false;
-        do {
-            nombre = Consola.leerCadena("Dime el nuevo nombre del cliente: ");
-            if (!nombre.isBlank()) {
-                try {
-                    new Cliente(nombre, VistaTexto.DNI_EJEMPLO, "600600600");
-                    nombreCorrecto = true;
-                } catch (IllegalArgumentException | NullPointerException e) {
-                    System.out.printf(e.getMessage());
-                }
-            } else {
-                nombreCorrecto = true;
-            }
-        } while (!nombreCorrecto);
-        return nombre;
+        return Consola.leerCadena("Introduce el nuevo nombre: ");
     }
 
     @Override
     public String leerNuevoTelefono() {
-        String telefono;
-        boolean telefonoCorrecto = false;
-        do {
-            telefono = Consola.leerCadena("Dime el nuevo teléfono del cliente: ");
-            if (!telefono.isBlank()) {
-                try {
-                    new Cliente("Juan", VistaTexto.DNI_EJEMPLO, telefono);
-                    telefonoCorrecto = true;
-                } catch (IllegalArgumentException | NullPointerException e) {
-                    System.out.printf(e.getMessage());
-                }
-            } else {
-                telefonoCorrecto = true;
-            }
-
-        } while (!telefonoCorrecto);
-        return telefono;
+        return Consola.leerCadena("Introduce el nuevo teléfono: ");
     }
 
     @Override
     public Vehiculo leerVehiculo() {
-        Vehiculo vehiculo = null;
-        boolean vehiculoCorrecto = false;
-
-        do {
-            try {
-                vehiculo = new Vehiculo(Consola.leerCadena("Dime la marca del vehículo: "), Consola.leerCadena("Dime el modelo del vehículo: "), Consola.leerCadena("Dime la matrícula del vehículo: "));
-                vehiculoCorrecto = true;
-            } catch (IllegalArgumentException | NullPointerException e) {
-                System.out.printf(e.getMessage());
-            }
-        } while (!vehiculoCorrecto);
-        return vehiculo;
+        String marca = Consola.leerCadena("Introduce la marca: ");
+        String modelo = Consola.leerCadena("Introduce el modelo: ");
+        String matricula = Consola.leerCadena("Introduce la matrícula: ");
+        return new Vehiculo(marca, modelo, matricula);
     }
 
     @Override
     public Vehiculo leerVehiculoMatricula() {
-        Vehiculo vehiculo = null;
-        boolean vehiculoCorrecto = false;
-        do {
-            try {
-                vehiculo = Vehiculo.get(Consola.leerCadena("Dime la matrícula del vehículo: "));
-                vehiculoCorrecto = true;
-            } catch (IllegalArgumentException | NullPointerException e) {
-                System.out.printf(e.getMessage());
-            }
-        } while (!vehiculoCorrecto);
-        return vehiculo;
+        return Vehiculo.get(Consola.leerCadena("Introduce la matrícula: "));
     }
 
     @Override
     public Trabajo leerRevision() {
-        Revision revision = null;
-        boolean trabajoCorrecto = false;
-
-        do {
-            try {
-                revision = new Revision(leerClienteDni(), leerVehiculoMatricula(), Consola.leerFecha("Dime la fecha de inicio del trabajo: "));
-                trabajoCorrecto = true;
-            } catch (IllegalArgumentException | NullPointerException e) {
-                System.out.printf(e.getMessage());
-            }
-        } while (!trabajoCorrecto);
-        return revision;
+        Cliente cliente = leerClienteDni();
+        Vehiculo vehiculo = leerVehiculoMatricula();
+        LocalDate fechaInicio = Consola.leerFecha("Introduce la fecha de inicio");
+        return new Revision(cliente, vehiculo, fechaInicio);
     }
 
     @Override
     public Trabajo leerMecanico() {
-        Trabajo mecanico = null;
-        boolean trabajoCorrecto = false;
-
-        do {
-            try {
-                mecanico = new Mecanico(leerClienteDni(), leerVehiculoMatricula(), Consola.leerFecha("Dime la fecha de inicio del trabajo: "));
-                trabajoCorrecto = true;
-            } catch (IllegalArgumentException | NullPointerException e) {
-                System.out.printf(e.getMessage());
-            }
-        } while (!trabajoCorrecto);
-        return mecanico;
+        Cliente cliente = leerClienteDni();
+        Vehiculo vehiculo = leerVehiculoMatricula();
+        LocalDate fechaInicio = Consola.leerFecha("Introduce la fecha de inicio");
+        return new Mecanico(cliente, vehiculo, fechaInicio);
     }
 
     @Override
     public Trabajo leerTrabajoVehiculo() {
-        return Trabajo.get(leerVehiculo());
+        return Trabajo.get(leerVehiculoMatricula());
     }
 
     @Override
     public int leerHoras() {
-        int horas;
-        boolean horasCorrectas = false;
-        do {
-            horas = Consola.leerEntero("Dime las horas que quieres añadir: ");
-            try {
-                Revision revision = new Revision(Cliente.get(VistaTexto.DNI_EJEMPLO), Vehiculo.get(VistaTexto.MATRICULA_DEFECTO), LocalDate.now());
-                revision.anadirHoras(horas);
-                horasCorrectas = true;
-            } catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
-                System.out.printf(e.getMessage());
-            }
-        } while (!horasCorrectas);
-        return horas;
+        return Consola.leerEntero("Introduce las horas a añadir: ");
     }
 
     @Override
     public float leerPrecioMaterial() {
-        float precioMaterial;
-        boolean precioCorrecto = false;
-        do {
-            precioMaterial = Consola.leerReal("Dime el precio que quieres añadir: ");
-            try {
-                Mecanico mecanico = new Mecanico(Cliente.get(VistaTexto.DNI_EJEMPLO), Vehiculo.get(VistaTexto.MATRICULA_DEFECTO), LocalDate.now());
-                mecanico.anadirPrecioMaterial(precioMaterial);
-                precioCorrecto = true;
-            } catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
-                System.out.printf(e.getMessage());
-            }
-        } while (!precioCorrecto);
-        return precioMaterial;
+        return Consola.leerReal("Introduce el precio del material a añadir: ");
     }
 
     @Override
     public LocalDate leerFechaCierre() {
-        LocalDate fechaCierre;
-        boolean fechaCierreCorrecta = false;
-        do {
-            fechaCierre = Consola.leerFecha("Dime la fecha de cierre: ");
-            try {
-                Revision revision = new Revision(Cliente.get(VistaTexto.DNI_EJEMPLO), Vehiculo.get(VistaTexto.MATRICULA_DEFECTO), LocalDate.of(1900, 1, 1));
-                revision.cerrar(fechaCierre);
-                fechaCierreCorrecta = true;
-            } catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
-                System.out.printf(e.getMessage());
-            }
-        } while (!fechaCierreCorrecta);
-        return fechaCierre;
+        return Consola.leerFecha("Introduce la fecha de cierre");
     }
 
     @Override
-    public void notificarResultado(Evento evento, String texto, boolean exito){
-        Consola.mostraCabecera(evento.toString());
-        if(exito){
-            System.out.printf("%s%n", texto);
-        }else{
+    public void notificarResultado(Evento evento, String texto, boolean exito) {
+        if (exito) {
+            System.out.println(texto);
+        } else {
             System.out.printf("ERROR: %s%n", texto);
         }
     }
 
     @Override
     public void mostrarCliente(Cliente cliente) {
-        Objects.requireNonNull(cliente, "El cliente no puede ser nulo.");
-        System.out.printf("%s%n", cliente);
+        System.out.println((cliente != null) ? cliente : "No existe ningún cliente con dicho DNI.");
     }
 
     @Override
     public void mostrarVehiculo(Vehiculo vehiculo) {
-        Objects.requireNonNull(vehiculo, "El vehiculo no puede ser nulo.");
-        System.out.printf("%s%n", vehiculo);
+        System.out.println((vehiculo != null) ? vehiculo : "No existe ningún vehículo con dicha matrícula.");
     }
 
     @Override
     public void mostrarTrabajo(Trabajo trabajo) {
-        Objects.requireNonNull(trabajo, "El vehiculo no puede ser nulo.");
-        System.out.printf("%s%n", trabajo);
+        System.out.println((trabajo != null) ? trabajo : "No existe ningún trabajo para ese cliente, vehículo y fecha.");
     }
 
     @Override
     public void mostrarClientes(List<Cliente> clientes) {
-        Objects.requireNonNull(clientes, "Los clientes no pueden ser nulos.");
-        System.out.printf("%s%n", clientes);
+        if (!clientes.isEmpty()) {
+            for (Cliente cliente : clientes) {
+                System.out.println(cliente);
+            }
+        } else {
+            System.out.println("No hay clientes que mostrar.");
+        }
     }
 
     @Override
     public void mostrarVehiculos(List<Vehiculo> vehiculos) {
-        Objects.requireNonNull(vehiculos, "Los vehículos no pueden ser nulos.");
-        System.out.printf("%s%n", vehiculos);
+        if (!vehiculos.isEmpty()) {
+            for (Vehiculo vehiculo : vehiculos) {
+                System.out.println(vehiculo);
+            }
+        } else {
+            System.out.println("No hay vehículos que mostrar.");
+        }
     }
 
     @Override
     public void mostrarTrabajos(List<Trabajo> trabajos) {
-        Objects.requireNonNull(trabajos, "Los trabajos no pueden ser nulos.");
-        System.out.printf("%s%n", trabajos);
+        if (!trabajos.isEmpty()) {
+            for (Trabajo trabajo : trabajos) {
+                System.out.println(trabajo);
+            }
+        } else {
+            System.out.println("No hay trabajos que mostrar.");
+        }
     }
+
+    @Override
+    public void mostrarTrabajosCliente(List<Trabajo> trabajosCliente) {
+        if (!trabajosCliente.isEmpty()) {
+            for (Trabajo trabajo : trabajosCliente) {
+                System.out.println(trabajo);
+            }
+        } else {
+            System.out.println("No hay trabajos que mostrar para dicho cliente.");
+        }
+    }
+
+    @Override
+    public void mostrarTrabajosVehiculo(List<Trabajo> trabajosVehiculo) {
+        if (!trabajosVehiculo.isEmpty()) {
+            for (Trabajo trabajo : trabajosVehiculo) {
+                System.out.println(trabajo);
+            }
+        } else {
+            System.out.println("No hay trabajos que mostrar para dicho vehículo.");
+        }
+    }
+
 }

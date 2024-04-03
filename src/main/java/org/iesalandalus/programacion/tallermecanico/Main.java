@@ -2,17 +2,13 @@ package org.iesalandalus.programacion.tallermecanico;
 
 import org.iesalandalus.programacion.tallermecanico.controlador.Controlador;
 import org.iesalandalus.programacion.tallermecanico.controlador.IControlador;
-import org.iesalandalus.programacion.tallermecanico.modelo.cascada.ModeloCascada;
-import org.iesalandalus.programacion.tallermecanico.vista.Vista;
-import org.iesalandalus.programacion.tallermecanico.vista.texto.VistaTexto;
-
-import javax.naming.OperationNotSupportedException;
+import org.iesalandalus.programacion.tallermecanico.modelo.FabricaModelo;
+import org.iesalandalus.programacion.tallermecanico.modelo.negocio.FabricaFuenteDatos;
+import org.iesalandalus.programacion.tallermecanico.vista.FabricaVista;
 
 public class Main {
-    public static void main(String[] args) throws OperationNotSupportedException {
-        Vista vista = new VistaTexto();
-        ModeloCascada modeloCascada = new ModeloCascada();
-        Controlador controlador = new Controlador(modeloCascada, vista);
+    public static void main(String[] args) {
+        IControlador controlador = new Controlador(FabricaModelo.CASCADA.crear(FabricaFuenteDatos.MEMORIA), FabricaVista.TEXTO.crear());
         controlador.comenzar();
     }
 }
