@@ -5,10 +5,7 @@ import org.iesalandalus.programacion.tallermecanico.modelo.negocio.ITrabajos;
 
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Trabajos implements ITrabajos {
 
@@ -43,6 +40,28 @@ public class Trabajos implements ITrabajos {
             }
         }
         return trabajosVehiculo;
+    }
+
+    public Map<TipoTrabajo, Integer> getEstadisticasMensuales(LocalDate mes){
+        Map<TipoTrabajo, Integer> numeroTrabajoMes = inicializarEstadisticas();
+        int veces;
+        for(Trabajo trabajo : coleccionTrabajos){
+            if(trabajo instanceof Revision && trabajo.getFechaFin().getMonthValue() == mes.getMonthValue()){
+                veces = numeroTrabajoMes.get(TipoTrabajo.REVISION);
+                veces++;
+            }else if(trabajo instanceof Mecanico && trabajo.getFechaFin().getMonthValue() == mes.getMonthValue()){
+                veces = numeroTrabajoMes.get(TipoTrabajo.MECANICO);
+                veces++;
+            }
+        }
+        return numeroTrabajoMes;
+    }
+
+    public Map<TipoTrabajo, Integer> inicializarEstadisticas(){
+        Map<TipoTrabajo, Integer> inicializarEstadisticas = new HashMap<>();
+        inicializarEstadisticas.put(TipoTrabajo.REVISION, 0);
+        inicializarEstadisticas.put(TipoTrabajo.MECANICO, 0);
+        return inicializarEstadisticas;
     }
 
     @Override
@@ -126,4 +145,5 @@ public class Trabajos implements ITrabajos {
         }
         coleccionTrabajos.remove(trabajo);
     }
+
 }
