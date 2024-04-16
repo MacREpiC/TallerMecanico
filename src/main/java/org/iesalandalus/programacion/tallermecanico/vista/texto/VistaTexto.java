@@ -7,6 +7,7 @@ import org.iesalandalus.programacion.tallermecanico.vista.eventos.GestorEventos;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class VistaTexto implements Vista {
 
@@ -110,6 +111,11 @@ public class VistaTexto implements Vista {
     }
 
     @Override
+    public LocalDate leerMes() {
+        return Consola.leerFecha("Introduce el mes: ");
+    }
+
+    @Override
     public void notificarResultado(Evento evento, String texto, boolean exito) {
         if (exito) {
             System.out.println(texto);
@@ -188,4 +194,12 @@ public class VistaTexto implements Vista {
         }
     }
 
+    @Override
+    public void mostrarEstadisticasMensuales(Map<TipoTrabajo, Integer> estadisticas) {
+        for (Map.Entry<TipoTrabajo, Integer> entry : estadisticas.entrySet()) {
+            TipoTrabajo tipoTrabajo = entry.getKey();
+            int cantidad = entry.getValue();
+            System.out.printf("%s: %d%n", tipoTrabajo, cantidad);
+        }
+    }
 }

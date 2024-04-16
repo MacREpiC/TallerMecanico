@@ -1,4 +1,4 @@
-package org.iesalandalus.programacion.tallermecanico.modelo.negocio.memoria;
+package org.iesalandalus.programacion.tallermecanico.modelo.negocio.ficheros;
 
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.*;
 import org.iesalandalus.programacion.tallermecanico.modelo.negocio.ITrabajos;
@@ -42,6 +42,7 @@ public class Trabajos implements ITrabajos {
         return trabajosVehiculo;
     }
 
+    @Override
     public Map<TipoTrabajo, Integer> getEstadisticasMensuales(LocalDate mes){
         Map<TipoTrabajo, Integer> numeroTrabajoMes = inicializarEstadisticas();
         int veces;
@@ -57,6 +58,7 @@ public class Trabajos implements ITrabajos {
         return numeroTrabajoMes;
     }
 
+    @Override
     public Map<TipoTrabajo, Integer> inicializarEstadisticas(){
         Map<TipoTrabajo, Integer> inicializarEstadisticas = new HashMap<>();
         inicializarEstadisticas.put(TipoTrabajo.REVISION, 0);
@@ -145,5 +147,4 @@ public class Trabajos implements ITrabajos {
         }
         coleccionTrabajos.remove(trabajo);
     }
-
 }

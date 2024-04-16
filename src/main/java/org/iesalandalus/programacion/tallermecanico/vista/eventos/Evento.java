@@ -23,6 +23,7 @@ public enum Evento {
     ANADIR_HORAS_TRABAJO(38, "Añadir horas a un trabajo."),
     ANADIR_PRECIO_MATERIAL_TRABAJO(39, "Añadir precio del material a un trabajo."),
     CERRAR_TRABAJO(40, "Cerrar trabajo."),
+    MOSTRAR_ESTADISTICAS(41, "Mostrar estadísticas mensuales."),
     SALIR(0, "Salir.");
 
     private final int codigo;

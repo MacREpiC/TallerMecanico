@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum TipoTrabajo {
-    MECANICO,
-    REVISION;
+    MECANICO ("Mecánico"),
+    REVISION ("Revisión");
 
-    /*private static final Map<TipoTrabajo, Trabajo> eventos = new HashMap<>();
-    public TipoTrabajo(String nombre){
+    private static final Map<TipoTrabajo, Trabajo> eventos = new HashMap<>();
+    /*public TipoTrabajo(String nombre){
 
     }
 
