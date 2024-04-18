@@ -9,19 +9,18 @@ import org.w3c.dom.NodeList;
 
 import javax.naming.OperationNotSupportedException;
 import javax.xml.parsers.DocumentBuilder;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Clientes implements IClientes {
-    private static final String FICHERO_CLIENTES = String.format("%s%s%s", "ficheros", File.separator, "ficheroTexto.txt");
-    String RAIZ;
-    String CLIENTE;
-    String NOMBRE;
-    String DNI;
-    String TELEFONO;
-    private Clientes instancia;
+    private static final String FICHERO_CLIENTES = "clientes.xml";
+    private static final String RAIZ = "ficheros";
+    private static final String CLIENTE = "cliente";
+    private static final String NOMBRE = "nombre";
+    private static final String DNI = "dni";
+    private static final String TELEFONO = "teléfono";
+    private static Clientes instancia;
     private final List<Cliente> coleccionClientes;
 
     public Clientes() {
@@ -37,6 +36,7 @@ public class Clientes implements IClientes {
 
     public void Comenzar(){
         Document documentoXml = UtilidadesXml.leerDocumentoXml(FICHERO_CLIENTES);
+        System.out.println("Fichero leído correctamente.");
         procesarDocumentoXml(documentoXml);
     }
 
@@ -56,9 +56,9 @@ public class Clientes implements IClientes {
         String dni = null;
         String telefono = null;
         if (elemento != null && elemento.getNodeType() == Node.ELEMENT_NODE) {
-            nombre = elemento.getAttribute("nombre");
-            dni = elemento.getAttribute("dni");
-            telefono = elemento.getAttribute("teléfono");
+            nombre = elemento.getAttribute(NOMBRE);
+            dni = elemento.getAttribute(DNI);
+            telefono = elemento.getAttribute(TELEFONO);
         }
         return new Cliente(nombre, dni, telefono);
     }
@@ -82,10 +82,10 @@ public class Clientes implements IClientes {
     }
 
     private Element getElemento(Document documentoXml, Cliente cliente){
-        Element elementoCliente = documentoXml.createElement("persona");
-        elementoCliente.setAttribute("nombre", cliente.getNombre());
-        elementoCliente.setAttribute("dni", cliente.getDni());
-        elementoCliente.setAttribute("teléfono", cliente.getTelefono());
+        Element elementoCliente = documentoXml.createElement(CLIENTE);
+        elementoCliente.setAttribute(NOMBRE, cliente.getNombre());
+        elementoCliente.setAttribute(DNI, cliente.getDni());
+        elementoCliente.setAttribute(TELEFONO, cliente.getTelefono());
         return elementoCliente;
     }
 

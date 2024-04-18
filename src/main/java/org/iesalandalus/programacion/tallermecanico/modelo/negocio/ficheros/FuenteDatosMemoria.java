@@ -13,11 +13,11 @@ public class FuenteDatosMemoria implements IFuenteDatos {
 
     @Override
     public IVehiculos crearVehiculos() {
-        return new Vehiculos();
+        return Vehiculos.getInstancia();
     }
 
     @Override
     public ITrabajos crearTrabajos() {
-        return new Trabajos();
+        return Trabajos.getInstancia();
     }
 }
