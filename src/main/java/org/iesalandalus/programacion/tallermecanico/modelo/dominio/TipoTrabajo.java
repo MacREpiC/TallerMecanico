@@ -1,20 +1,17 @@
 package org.iesalandalus.programacion.tallermecanico.modelo.dominio;
 
-import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
-
-import java.util.HashMap;
-import java.util.Map;
-
 public enum TipoTrabajo {
     MECANICO ("Mecánico"),
     REVISION ("Revisión");
-
-    private static final Map<TipoTrabajo, Trabajo> eventos = new HashMap<>();
-    /*public TipoTrabajo(String nombre){
-
+    String nombre;
+    TipoTrabajo(String nombre){
+        this.nombre = nombre;
     }
-
-    static {
-
-    }*/
+    public static TipoTrabajo get(Trabajo trabajo){
+        if(trabajo instanceof Revision){
+            return TipoTrabajo.REVISION;
+        }else{
+            return TipoTrabajo.MECANICO;
+        }
+    }
 }

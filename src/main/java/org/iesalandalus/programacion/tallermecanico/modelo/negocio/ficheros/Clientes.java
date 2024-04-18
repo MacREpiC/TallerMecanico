@@ -2,18 +2,91 @@ package org.iesalandalus.programacion.tallermecanico.modelo.negocio.ficheros;
 
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.tallermecanico.modelo.negocio.IClientes;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import javax.naming.OperationNotSupportedException;
+import javax.xml.parsers.DocumentBuilder;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Clientes implements IClientes {
-
+    private static final String FICHERO_CLIENTES = String.format("%s%s%s", "ficheros", File.separator, "ficheroTexto.txt");
+    String RAIZ;
+    String CLIENTE;
+    String NOMBRE;
+    String DNI;
+    String TELEFONO;
+    private Clientes instancia;
     private final List<Cliente> coleccionClientes;
 
     public Clientes() {
         coleccionClientes = new ArrayList<>();
+    }
+
+    static Clientes getInstancia(){
+        if(instancia == null){
+            instancia = new Clientes();
+        }
+        return instancia;
+    }
+
+    public void Comenzar(){
+        Document documentoXml = UtilidadesXml.leerDocumentoXml(FICHERO_CLIENTES);
+        procesarDocumentoXml(documentoXml);
+    }
+
+    private void procesarDocumentoXml(Document documentoXml){
+        if (documentoXml != null) {
+            System.out.println("Fichero leído correctamente.");
+            NodeList clientes = documentoXml.getElementsByTagName("clientes");
+            for (int i = 0; i < clientes.getLength(); i++) {
+                Node cliente = clientes.item(i);
+                coleccionClientes.add(getCliente((Element) cliente));
+            }
+        }
+    }
+
+    private Cliente getCliente(Element elemento){
+        String nombre = null;
+        String dni = null;
+        String telefono = null;
+        if (elemento != null && elemento.getNodeType() == Node.ELEMENT_NODE) {
+            nombre = elemento.getAttribute("nombre");
+            dni = elemento.getAttribute("dni");
+            telefono = elemento.getAttribute("teléfono");
+        }
+        return new Cliente(nombre, dni, telefono);
+    }
+
+    public void terminar(){
+        UtilidadesXml.escribirDocumentoXml(crearDocumentoXml(), FICHERO_CLIENTES);
+    }
+
+    private Document crearDocumentoXml(){
+        DocumentBuilder constructor = UtilidadesXml.crearConstructorDocumentoXml();
+        Document documentoXml = null;
+        if (constructor != null){
+            documentoXml = constructor.newDocument();
+            documentoXml.appendChild(documentoXml.createElement("clientes"));
+            for(Cliente cliente : coleccionClientes){
+                Element elementoCliente = getElemento(documentoXml, cliente);
+                documentoXml.getDocumentElement().appendChild(elementoCliente);
+            }
+        }
+        return documentoXml;
+    }
+
+    private Element getElemento(Document documentoXml, Cliente cliente){
+        Element elementoCliente = documentoXml.createElement("persona");
+        elementoCliente.setAttribute("nombre", cliente.getNombre());
+        elementoCliente.setAttribute("dni", cliente.getDni());
+        elementoCliente.setAttribute("teléfono", cliente.getTelefono());
+        return elementoCliente;
     }
 
     @Override
@@ -64,5 +137,4 @@ public class Clientes implements IClientes {
         }
         coleccionClientes.remove(cliente);
     }
-
 }

@@ -11,8 +11,12 @@ public class Trabajos implements ITrabajos {
 
     private final List<Trabajo> coleccionTrabajos;
 
-    public Trabajos() {
+    private Trabajos() {
         coleccionTrabajos = new ArrayList<>();
+    }
+
+    Trabajos getInstancia(){
+
     }
 
     @Override
