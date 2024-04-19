@@ -14,7 +14,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Trabajos implements ITrabajos {
-
     private static final String FICHERO_TRABAJOS = String.format("%s%s%s", "ficherosXml", File.separator, "trabajos.xml");
     private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final String RAIZ = "trabajos";

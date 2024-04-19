@@ -24,7 +24,7 @@ public class Clientes implements IClientes {
     private static Clientes instancia;
     private final List<Cliente> coleccionClientes;
 
-    public Clientes() {
+    private Clientes() {
         coleccionClientes = new ArrayList<>();
     }
 
