@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class Clientes implements IClientes {
-    private static final String FICHERO_CLIENTES = String.format("%s%s%s", "datos", File.separator, "clientes.xml");
+    private static final String FICHERO_CLIENTES = String.format("%s%s%s", "ficherosXml", File.separator, "clientes.xml");
     private static final String RAIZ = "ficheros";
     private static final String CLIENTE = "cliente";
     private static final String NOMBRE = "nombre";
     private static final String DNI = "dni";
-    private static final String TELEFONO = "teléfono";
+    private static final String TELEFONO = "telefono";
     private static Clientes instancia;
     private final List<Cliente> coleccionClientes;
 
@@ -35,7 +35,8 @@ public class Clientes implements IClientes {
         return instancia;
     }
 
-    public void Comenzar(){
+    @Override
+    public void comenzar(){
         Document documentoXml = UtilidadesXml.leerDocumentoXml(FICHERO_CLIENTES);
         System.out.println("Fichero leído correctamente.");
         procesarDocumentoXml(documentoXml);
@@ -44,7 +45,7 @@ public class Clientes implements IClientes {
     private void procesarDocumentoXml(Document documentoXml){
         if (documentoXml != null) {
             System.out.println("Fichero leído correctamente.");
-            NodeList clientes = documentoXml.getElementsByTagName("clientes");
+            NodeList clientes = documentoXml.getElementsByTagName(CLIENTE);
             for (int i = 0; i < clientes.getLength(); i++) {
                 Node cliente = clientes.item(i);
                 coleccionClientes.add(getCliente((Element) cliente));
@@ -60,6 +61,7 @@ public class Clientes implements IClientes {
             nombre = elemento.getAttribute(NOMBRE);
             dni = elemento.getAttribute(DNI);
             telefono = elemento.getAttribute(TELEFONO);
+            System.out.println(telefono);
         }
         return new Cliente(nombre, dni, telefono);
     }

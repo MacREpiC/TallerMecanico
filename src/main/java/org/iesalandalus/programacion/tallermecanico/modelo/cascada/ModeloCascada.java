@@ -16,6 +16,7 @@ public class ModeloCascada implements Modelo {
     private IVehiculos vehiculos;
     private ITrabajos trabajos;
 
+
     public ModeloCascada(FabricaFuenteDatos fabricaFuenteDatos) {
         Objects.requireNonNull(fabricaFuenteDatos, "La factoría de la fuente de datos no puede ser nula.");
         IFuenteDatos fuenteDatos = fabricaFuenteDatos.crear();
@@ -26,6 +27,9 @@ public class ModeloCascada implements Modelo {
 
     @Override
     public void comenzar() {
+        clientes.comenzar();
+        vehiculos.comenzar();
+        trabajos.comenzar();
         System.out.println("Modelo comenzado.");
     }
 
