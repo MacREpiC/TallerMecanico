@@ -9,12 +9,13 @@ import org.w3c.dom.NodeList;
 
 import javax.naming.OperationNotSupportedException;
 import javax.xml.parsers.DocumentBuilder;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Clientes implements IClientes {
-    private static final String FICHERO_CLIENTES = "clientes.xml";
+    private static final String FICHERO_CLIENTES = String.format("%s%s%s", "datos", File.separator, "clientes.xml");
     private static final String RAIZ = "ficheros";
     private static final String CLIENTE = "cliente";
     private static final String NOMBRE = "nombre";
@@ -64,7 +65,15 @@ public class Clientes implements IClientes {
     }
 
     public void terminar(){
-        UtilidadesXml.escribirDocumentoXml(crearDocumentoXml(), FICHERO_CLIENTES);
+        Document documentoXml = crearDocumentoXml();
+        if (documentoXml != null) {
+            documentoXml.appendChild(documentoXml.createElement(RAIZ));
+            for (Cliente cliente : coleccionClientes) {
+                Element elemento = getElemento(documentoXml, cliente);
+                documentoXml.getDocumentElement().appendChild(elemento);
+            }
+        }
+        UtilidadesXml.escribirDocumentoXml(documentoXml, FICHERO_CLIENTES);
     }
 
     private Document crearDocumentoXml(){

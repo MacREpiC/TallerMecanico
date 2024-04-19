@@ -4,8 +4,10 @@ import org.iesalandalus.programacion.tallermecanico.modelo.dominio.*;
 import org.iesalandalus.programacion.tallermecanico.vista.Vista;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.GestorEventos;
+import org.iesalandalus.programacion.utilidades.Entrada;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -112,7 +114,17 @@ public class VistaTexto implements Vista {
 
     @Override
     public LocalDate leerMes() {
-        return Consola.leerFecha("Introduce el mes: ");
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        int mes;
+        int anio;
+        do {
+            System.out.print("Introduce el mes:");
+            mes = Entrada.entero();
+            System.out.print("Introduce el año de ese mes:");
+            anio = Entrada.entero();
+        } while (mes <= 0 || mes > 12);
+        String cadenaFecha = String.format("%s/%02d/%s", "14", mes, anio);
+        return LocalDate.parse(cadenaFecha, formato);
     }
 
     @Override

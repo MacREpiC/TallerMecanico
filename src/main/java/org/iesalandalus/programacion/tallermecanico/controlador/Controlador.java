@@ -1,12 +1,11 @@
 package org.iesalandalus.programacion.tallermecanico.controlador;
 
 import org.iesalandalus.programacion.tallermecanico.modelo.Modelo;
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Mecanico;
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Revision;
+import org.iesalandalus.programacion.tallermecanico.modelo.dominio.TipoTrabajo;
 import org.iesalandalus.programacion.tallermecanico.vista.Vista;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
-import org.iesalandalus.programacion.tallermecanico.vista.eventos.ReceptorEventos;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class Controlador implements IControlador {
@@ -58,7 +57,10 @@ public class Controlador implements IControlador {
                 case LISTAR_TRABAJOS -> vista.mostrarTrabajos(modelo.getTrabajos());
                 case LISTAR_TRABAJOS_CLIENTE -> vista.mostrarTrabajosCliente(modelo.getTrabajos(vista.leerClienteDni()));
                 case LISTAR_TRABAJOS_VEHICULO -> vista.mostrarTrabajosVehiculo(modelo.getTrabajos(vista.leerVehiculoMatricula()));
-                /*case MOSTRAR_ESTADISTICAS -> vista.mostrarEstadisticasMensuales(modelo.getTrabajos(vista.));*/
+                case MOSTRAR_ESTADISTICAS_MENSUALES -> {
+                    Map<TipoTrabajo, Integer> estadisticas = modelo.getEstadisticasMensuales(vista.leerMes());
+                    vista.mostrarEstadisticasMensuales(estadisticas);
+                }
                 case SALIR -> terminar();
             }
             if (!resultado.isBlank()) {
