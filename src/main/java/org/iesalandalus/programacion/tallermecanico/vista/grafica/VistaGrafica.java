@@ -7,6 +7,7 @@ import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
 import org.iesalandalus.programacion.tallermecanico.vista.Vista;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.GestorEventos;
+import org.iesalandalus.programacion.tallermecanico.vista.grafica.controladores.LeerFechaFin;
 import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Controlador;
 import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Controladores;
 import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Dialogos;
@@ -41,7 +42,7 @@ public class VistaGrafica implements Vista {
 
     @Override
     public void terminar() {
-        LanzadorVentanaPrincipal.
+        //LanzadorVentanaPrincipal.
     }
 
     @Override
@@ -104,6 +105,7 @@ public class VistaGrafica implements Vista {
         LeerFechaFin leerFechaFin = (LeerFechaFin) Controladores.get("/vistas/leer/leerFechaFin.fxml", "Leer fecha fin", ventanaPrincipal.getEscenario());
         leerFechaFin.getEscenario().showAndWait();
         return Objects.requireNonNull(leerFechaFin.getFechaFin(), "Operación cancelada por el usuario.");
+        return  null;
     }
 
     @Override
