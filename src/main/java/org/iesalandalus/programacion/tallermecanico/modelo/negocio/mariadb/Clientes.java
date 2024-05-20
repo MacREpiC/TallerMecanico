@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class Clientes implements IClientes {
-
     private static final String NOMBRE = "nombre";
     private static final String DNI = "dni";
     private static final String TELEFONO = "telefono";

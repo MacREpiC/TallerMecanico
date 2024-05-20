@@ -1,16 +1,24 @@
 package org.iesalandalus.programacion.tallermecanico.modelo.negocio.mariadb;
 
+import org.iesalandalus.programacion.tallermecanico.modelo.FabricaModelo;
+import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
+import org.iesalandalus.programacion.tallermecanico.modelo.negocio.IClientes;
 import org.iesalandalus.programacion.tallermecanico.modelo.negocio.IVehiculos;
+import org.mariadb.jdbc.Connection;
 
 import javax.naming.OperationNotSupportedException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Vehiculos implements IVehiculos {
+    private static final String MARCA = "marca";
+    private static final String MODELO = "modelo";
+    private static final String MATRICULA = "matricula";
     private static Vehiculos instancia;
-    private Vehiculos() {
-
-    }
+    private Connection conexion;
 
     static Vehiculos getInstancia() {
         if (instancia == null) {
@@ -18,24 +26,56 @@ public class Vehiculos implements IVehiculos {
         }
         return instancia;
     }
+
+    private Vehiculos() {}
+
     @Override
     public void comenzar() {
-
+        conexion = MariaDB.getConexion();
     }
 
     @Override
     public void terminar() {
+        MariaDB.cerrarConexion();
+    }
 
+    private Vehiculo getVehiculo(ResultSet fila) throws SQLException {
+        String marca = fila.getString(MARCA);
+        String modelo = fila.getString(MODELO);
+        String matricula = fila.getString(MATRICULA);
+        return new Vehiculo(marca, modelo, matricula);
+    }
+
+    private void prepararSentencia(PreparedStatement sentencia, Vehiculo vehiculo) throws SQLException {
+        sentencia.setString(1, vehiculo.marca());
+        sentencia.setString(2, vehiculo.modelo());
+        sentencia.setString(3, vehiculo.matricula());
     }
 
     @Override
     public List<Vehiculo> get() {
-        return null;
+        List<Vehiculo> vehiculos = new ArrayList<>();
+        try (Statement sentencia = conexion.createStatement()){
+            ResultSet filas = sentencia.executeQuery("select * from vehiculos");
+            while(filas.next()){
+                vehiculos.add(getVehiculo(filas));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return vehiculos;
     }
 
     @Override
     public void insertar(Vehiculo vehiculo) throws OperationNotSupportedException {
-
+        Objects.requireNonNull(vehiculo, "No puedes insertar un vehículo nulo.");
+        try (PreparedStatement sentencia = conexion.prepareStatement("insert into vehiculos values (?, ?, ?)")){
+            prepararSentencia(sentencia, vehiculo);
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new OperationNotSupportedException("Ya existe un cliente con ese DNI.");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
