@@ -8,6 +8,8 @@ import java.util.List;
 public interface IClientes {
     void comenzar();
 
+    void terminar();
+
     List<Cliente> get();
 
     void insertar(Cliente cliente) throws OperationNotSupportedException;
