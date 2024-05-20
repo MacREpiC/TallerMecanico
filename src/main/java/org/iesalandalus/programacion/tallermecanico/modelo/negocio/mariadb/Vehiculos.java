@@ -61,7 +61,7 @@ public class Vehiculos implements IVehiculos {
                 vehiculos.add(getVehiculo(filas));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e.getMessage());
         }
         return vehiculos;
     }
@@ -74,17 +74,30 @@ public class Vehiculos implements IVehiculos {
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new OperationNotSupportedException("Ya existe un cliente con ese DNI.");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
     @Override
     public Vehiculo buscar(Vehiculo vehiculo) {
-        return null;
+        Objects.requireNonNull(vehiculo, "No puedes buscar un vehículo nulo.");
+        try (PreparedStatement sentencia = conexion.prepareStatement("select * from vehiculos where matricula = ?")){
+            sentencia.setString(1, vehiculo.matricula());
+            ResultSet filas = sentencia.executeQuery();
+            vehiculo = filas.first() ? getVehiculo(filas) : null;
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+        return vehiculo;
     }
 
     @Override
     public void borrar(Vehiculo vehiculo) throws OperationNotSupportedException {
-
+        Objects.requireNonNull(vehiculo, "No puedes buscar un vehículo nulo.");
+        try (PreparedStatement sentencia = conexion.prepareStatement("delete from vehiculos where matricula = ?")){
+            sentencia.setString(1, vehiculo.matricula());
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
     }
 }
