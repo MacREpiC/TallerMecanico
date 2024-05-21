@@ -14,8 +14,8 @@ public class Main {
         controlador.comenzar();
     }
     private static Pair<FabricaVista, FabricaFuenteDatos> procesarArgumentos(String[] args){
-        FabricaVista fabricaVista = FabricaVista.VENTANAS;
-        FabricaFuenteDatos fabricaFuenteDatos = FabricaFuenteDatos.MARIADB;
+        FabricaVista fabricaVista = FabricaVista.TEXTO;
+        FabricaFuenteDatos fabricaFuenteDatos = FabricaFuenteDatos.MONGODB;
         for(String argumentos : args) {
             if(argumentos.equalsIgnoreCase("--vventanas")){
                 fabricaVista =  FabricaVista.VENTANAS;
@@ -25,6 +25,8 @@ public class Main {
                 fabricaFuenteDatos = FabricaFuenteDatos.FICHEROS;
             }else if (argumentos.equalsIgnoreCase("-fdmariadb")) {
                 fabricaFuenteDatos = FabricaFuenteDatos.MARIADB;
+            }else if (argumentos.equalsIgnoreCase("-fdmongodb")){
+                fabricaFuenteDatos = FabricaFuenteDatos.MONGODB;
             }
         }
         return new Pair<>(fabricaVista, fabricaFuenteDatos);

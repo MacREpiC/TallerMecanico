@@ -23,8 +23,6 @@ public interface ITrabajos {
 
     Map<TipoTrabajo, Integer> getEstadisticasMensuales(LocalDate mes);
 
-    Map<TipoTrabajo, Integer> inicializarEstadisticas();
-
     void insertar(Trabajo trabajo) throws OperationNotSupportedException;
 
     void anadirHoras(Trabajo trabajo, int horas) throws OperationNotSupportedException;

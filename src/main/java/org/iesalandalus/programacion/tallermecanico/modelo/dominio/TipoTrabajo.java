@@ -1,8 +1,8 @@
 package org.iesalandalus.programacion.tallermecanico.modelo.dominio;
 
 public enum TipoTrabajo {
-    MECANICO ("Mec√°nico"),
-    REVISION ("Revisi√≥n");
+    MECANICO ("Mec·nico"),
+    REVISION ("RevisiÛn");
     String nombre;
     TipoTrabajo(String nombre){
         this.nombre = nombre;
@@ -13,5 +13,10 @@ public enum TipoTrabajo {
         }else{
             return TipoTrabajo.MECANICO;
         }
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
     }
 }
