@@ -20,7 +20,7 @@
                   </Label>
                </children>
             </HBox>
-            <Button mnemonicParsing="false" onAction="#insertarCliente" prefWidth="100.0" style="-fx-background-color: #ffe73f; -fx-border-radius: 5; -fx-border-color: #de5e8d;" text="Insertar">
+            <Button mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: #ffe73f; -fx-border-radius: 5; -fx-border-color: #de5e8d;" text="Insertar">
                <font>
                   <Font size="20.0" />
                </font>

@@ -1,9 +1,6 @@
 package org.iesalandalus.programacion.tallermecanico.modelo.negocio.mariadb;
 
-import org.iesalandalus.programacion.tallermecanico.modelo.FabricaModelo;
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
-import org.iesalandalus.programacion.tallermecanico.modelo.negocio.IClientes;
 import org.iesalandalus.programacion.tallermecanico.modelo.negocio.IVehiculos;
 import org.mariadb.jdbc.Connection;
 
@@ -96,6 +93,10 @@ public class Vehiculos implements IVehiculos {
         Objects.requireNonNull(vehiculo, "No puedes buscar un vehículo nulo.");
         try (PreparedStatement sentencia = conexion.prepareStatement("delete from vehiculos where matricula = ?")){
             sentencia.setString(1, vehiculo.matricula());
+            int filas = sentencia.executeUpdate();
+            if (filas == 0) {
+                throw new OperationNotSupportedException("No existe ningún cliente con ese DNI.");
+            }
         } catch (SQLException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
