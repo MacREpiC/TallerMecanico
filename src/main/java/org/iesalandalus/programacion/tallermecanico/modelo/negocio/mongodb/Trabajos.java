@@ -214,7 +214,7 @@ public class Trabajos implements ITrabajos {
     @Override
     public void anadirPrecioMaterial(Trabajo trabajo, float precioMaterial) throws OperationNotSupportedException {
         Objects.requireNonNull(trabajo, "No puedo añadir precio del material a un trabajo nulo.");
-        Bson filtro = and(getCriterioBusqueda(trabajo), exists(FECHA_FIN, false), eq(TIPO, MECANICO));
+        Bson filtro = and(getCriterioBusqueda(trabajo.getVehiculo()), exists(FECHA_FIN, false), eq(TIPO, MECANICO));
         UpdateResult resultado = coleccionTrabajos.updateOne(filtro, set(PRECIO_MATERIAL, precioMaterial));
         ((Mecanico)trabajo).anadirPrecioMaterial(precioMaterial);
         if (resultado.getMatchedCount() == 0) {
@@ -225,7 +225,7 @@ public class Trabajos implements ITrabajos {
     @Override
     public void cerrar(Trabajo trabajo, LocalDate fechaFin) throws OperationNotSupportedException {
         Objects.requireNonNull(trabajo, "No puedo cerrar a un trabajo nulo.");
-        Bson filtro = and(getCriterioBusqueda(trabajo), exists(FECHA_FIN, false));
+        Bson filtro = and(getCriterioBusqueda(trabajo.getVehiculo()), exists(FECHA_FIN, false));
         UpdateResult resultado = coleccionTrabajos.updateOne(filtro, set(FECHA_FIN, toDate(fechaFin)));
         trabajo.cerrar(fechaFin);
         if (resultado.getMatchedCount() == 0) {
