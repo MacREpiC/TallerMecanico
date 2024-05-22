@@ -8,11 +8,11 @@ import java.util.Objects;
 public class Controlador {
 
 	private Stage escenario;
-	
+
 	public Stage getEscenario() {
 		return escenario;
 	}
-	
+
 	public void setEscenario(Stage escenario) {
 		Objects.requireNonNull(escenario, "ERROR: El escenario no puede ser nulo.");
 		this.escenario = escenario;
@@ -25,5 +25,5 @@ public class Controlador {
 	public void addIcono(String icono) {
 		getEscenario().getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(icono))));
 	}
-	
+
 }

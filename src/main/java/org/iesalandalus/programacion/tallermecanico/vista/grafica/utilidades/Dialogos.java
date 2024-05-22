@@ -65,7 +65,7 @@ public class Dialogos {
 		Optional<ButtonType> respuesta = dialogo.showAndWait();
 		return (respuesta.isPresent() && respuesta.get() == ButtonType.OK);
 	}
-	
+
 	public static String mostrarDialogoTexto(String titulo, String contenido, Stage propietario, String expresionRegular) {
 		TextInputDialog dialogo = new TextInputDialog();
 		dialogo.getEditor().textProperty().addListener((ob, ov, nv) -> Controles.validarCampoTexto(expresionRegular, dialogo.getEditor()));
@@ -77,7 +77,7 @@ public class Dialogos {
 		dialogo.setContentText(contenido);
 		dialogo.initModality(Modality.APPLICATION_MODAL);
 		dialogo.initOwner(propietario);
-		
+
 		Optional<String> respuesta = dialogo.showAndWait();
 		return (respuesta.orElse(null));
 	}

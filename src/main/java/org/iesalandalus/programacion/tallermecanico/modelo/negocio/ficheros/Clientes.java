@@ -28,21 +28,21 @@ public class Clientes implements IClientes {
         coleccionClientes = new ArrayList<>();
     }
 
-    static Clientes getInstancia(){
-        if(instancia == null){
+    static Clientes getInstancia() {
+        if (instancia == null) {
             instancia = new Clientes();
         }
         return instancia;
     }
 
     @Override
-    public void comenzar(){
+    public void comenzar() {
         Document documentoXml = UtilidadesXml.leerDocumentoXml(FICHERO_CLIENTES);
         System.out.println("Fichero leído correctamente.");
         procesarDocumentoXml(documentoXml);
     }
 
-    private void procesarDocumentoXml(Document documentoXml){
+    private void procesarDocumentoXml(Document documentoXml) {
         if (documentoXml != null) {
             System.out.println("Fichero leído correctamente.");
             NodeList clientes = documentoXml.getElementsByTagName(CLIENTE);
@@ -53,7 +53,7 @@ public class Clientes implements IClientes {
         }
     }
 
-    private Cliente getCliente(Element elemento){
+    private Cliente getCliente(Element elemento) {
         String nombre = null;
         String dni = null;
         String telefono = null;
@@ -66,7 +66,7 @@ public class Clientes implements IClientes {
         return new Cliente(nombre, dni, telefono);
     }
 
-    public void terminar(){
+    public void terminar() {
         Document documentoXml = crearDocumentoXml();
         if (documentoXml != null) {
             documentoXml.appendChild(documentoXml.createElement(RAIZ));
@@ -78,13 +78,13 @@ public class Clientes implements IClientes {
         UtilidadesXml.escribirDocumentoXml(documentoXml, FICHERO_CLIENTES);
     }
 
-    private Document crearDocumentoXml(){
+    private Document crearDocumentoXml() {
         DocumentBuilder constructor = UtilidadesXml.crearConstructorDocumentoXml();
         Document documentoXml = null;
-        if (constructor != null){
+        if (constructor != null) {
             documentoXml = constructor.newDocument();
             documentoXml.appendChild(documentoXml.createElement("clientes"));
-            for(Cliente cliente : coleccionClientes){
+            for (Cliente cliente : coleccionClientes) {
                 Element elementoCliente = getElemento(documentoXml, cliente);
                 documentoXml.getDocumentElement().appendChild(elementoCliente);
             }
@@ -92,7 +92,7 @@ public class Clientes implements IClientes {
         return documentoXml;
     }
 
-    private Element getElemento(Document documentoXml, Cliente cliente){
+    private Element getElemento(Document documentoXml, Cliente cliente) {
         Element elementoCliente = documentoXml.createElement(CLIENTE);
         elementoCliente.setAttribute(NOMBRE, cliente.getNombre());
         elementoCliente.setAttribute(DNI, cliente.getDni());

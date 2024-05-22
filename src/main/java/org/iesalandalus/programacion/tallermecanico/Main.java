@@ -8,7 +8,7 @@ import org.iesalandalus.programacion.tallermecanico.vista.FabricaVista;
 
 public class Main {
     public static void main(String[] args) {
-        IControlador controlador = new Controlador(FabricaModelo.CASCADA.crear(FabricaFuenteDatos.FICHEROS), FabricaVista.GRAFICA.crear());
+        IControlador controlador = new Controlador(FabricaModelo.CASCADA.crear(FabricaFuenteDatos.FICHEROS), FabricaVista.VENTANAS.crear());
         controlador.comenzar();
     }
 }

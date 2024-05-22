@@ -1,0 +1,37 @@
+.root {
+	-fx-base: #ffe4c4;
+}
+
+.button {
+	-fx-background-radius: 5;
+	-fx-background-color: #ffe73f;
+}
+
+.label {
+    -fx-text-fill: black;
+}
+
+VBox {
+    -fx-background-color: #f5cbd0;
+    -fx-background-radius: 5;
+}
+
+HBox {
+    -fx-background-color: #efa5ab;
+    -fx-background-radius: 10;
+}
+
+#hboxClientes {
+    -fx-background-color: #de5e8d;
+    -fx-background-radius: 5;
+}
+
+#hboxVehiculos {
+    -fx-background-color: #de5e8d;
+    -fx-background-radius: 5;
+}
+
+#hboxTrabajos {
+    -fx-background-color: #de5e8d;
+    -fx-background-radius: 5;
+}

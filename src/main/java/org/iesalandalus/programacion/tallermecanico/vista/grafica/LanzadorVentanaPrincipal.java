@@ -1,14 +1,15 @@
-package org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades;
+package org.iesalandalus.programacion.tallermecanico.vista.grafica;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.iesalandalus.programacion.tallermecanico.vista.grafica.VistaGrafica;
+import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Controlador;
+import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Controladores;
 
 public class LanzadorVentanaPrincipal extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        Controlador ventanaPrincipal = Controladores.get("/vistas/VentanaPrincipal.fxml", "Taller Mecánico", null);
-        ventanaPrincipal.addHojaEstilos("/estilos/aplicacion.css");
+        Controlador ventanaPrincipal = Controladores.get("/vistas/ventanaPrincipal.fxml", "Taller Mecánico", null);
+        ventanaPrincipal.addHojaEstilos("/estilos/ventanaPrincipal.css");
         ventanaPrincipal.addIcono("/imagenes/iconoSaludar.png");
         VistaGrafica.getInstancia().setVentanaPrincipal(ventanaPrincipal);
         ventanaPrincipal.getEscenario().show();

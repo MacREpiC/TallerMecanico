@@ -12,7 +12,6 @@ import org.iesalandalus.programacion.tallermecanico.vista.grafica.controladores.
 import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Controlador;
 import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Controladores;
 import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Dialogos;
-import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.LanzadorVentanaPrincipal;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,6 +22,7 @@ public class VistaGrafica implements Vista {
     private final GestorEventos gestorEventos = new GestorEventos(Evento.values());
     public static VistaGrafica instancia;
     private Controlador ventanaPrincipal;
+
     public static VistaGrafica getInstancia(){
         if(instancia == null){
             instancia = new VistaGrafica();
@@ -39,7 +39,9 @@ public class VistaGrafica implements Vista {
         LanzadorVentanaPrincipal.comenzar();
     }
 
-    public void setVentanaPrincipal(Controlador ventanaPrincipal){this.ventanaPrincipal = ventanaPrincipal;}
+    public void setVentanaPrincipal(Controlador ventanaPrincipal){
+        this.ventanaPrincipal = ventanaPrincipal;
+    }
 
     @Override
     public void terminar() {
@@ -48,13 +50,12 @@ public class VistaGrafica implements Vista {
 
     @Override
     public Cliente leerCliente() {
-        return null;
+        InsertarCliente insertarCliente = (InsertarCliente) Controladores.get("/vistas/insertarCliente.fxml", "Insertar cliente", ventanaPrincipal.getEscenario());
+        return insertarCliente.getCliente();
     }
 
     @Override
     public Cliente leerClienteDni() {
-        InsertarCliente insertarCliente = (InsertarCliente) Controladores.get("/fxml/insertarCliente.fxml", "Insertar cliente", ventanaPrincipal.getEscenario());
-        //return insertarCliente.getCliente();
         return null;
     }
 
@@ -108,7 +109,7 @@ public class VistaGrafica implements Vista {
         LeerFechaFin leerFechaFin = (LeerFechaFin) Controladores.get("/vistas/leer/leerFechaFin.fxml", "Leer fecha fin", ventanaPrincipal.getEscenario());
         leerFechaFin.getEscenario().showAndWait();
         //return Objects.requireNonNull(leerFechaFin.getFechaFin(), "Operación cancelada por el usuario.");
-        return  null;
+        return null;
     }
 
     @Override
