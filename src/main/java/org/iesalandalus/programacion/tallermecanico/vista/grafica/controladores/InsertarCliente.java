@@ -6,7 +6,6 @@ import javafx.scene.control.TextField;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Controlador;
 import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Controles;
-import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Dialogos;
 
 public class InsertarCliente extends Controlador {
 
@@ -84,7 +83,7 @@ public class InsertarCliente extends Controlador {
         return telefono.matches(Cliente.ER_TELEFONO);
     }
 
-    /*@FXML
+    @FXML
     private void initialize() {
         tfNombre.textProperty().addListener((observable, oldValue, newValue) -> {
             tfNombre.getStyleClass().removeAll("error", "bien");
@@ -118,5 +117,5 @@ public class InsertarCliente extends Controlador {
                 tfTelefono.getStyleClass().add("bien");
             }
         });
-    }*/
+    }
 }

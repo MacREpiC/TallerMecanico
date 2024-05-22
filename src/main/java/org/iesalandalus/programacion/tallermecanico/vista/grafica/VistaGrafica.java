@@ -56,7 +56,8 @@ public class VistaGrafica implements Vista {
 
     @Override
     public Cliente leerClienteDni() {
-        return null;
+        InsertarCliente insertarCliente = (InsertarCliente) Controladores.get("/vistas/insertarCliente.fxml", "Insertar cliente", ventanaPrincipal.getEscenario());
+        return insertarCliente.getCliente();
     }
 
     @Override

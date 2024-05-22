@@ -31,6 +31,13 @@ public class VentanaPrincipal extends Controlador {
 
     @FXML
     void buscarCliente() {
+        LeerClienteDni vistaClienteDni = (LeerClienteDni) Controladores.get("/vistas/leerClienteDni.fxml", "Leer dni", getEscenario());
+        vistaClienteDni.addHojaEstilos("/estilos/leerClienteDni.css");
+        vistaClienteDni.limpiarCampos();
+        vistaClienteDni.getEscenario().showAndWait();
+        if (!vistaClienteDni.isCancelado()) {
+            VistaGrafica.getInstancia().getGestorEventos().notificar(Evento.BUSCAR_CLIENTE);
+        }
     }
 
     @FXML
