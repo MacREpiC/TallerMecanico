@@ -22,13 +22,13 @@ public class Clientes implements IClientes {
     private static final String DNI = "dni";
     private static final String TELEFONO = "telefono";
     private static Clientes instancia;
-    private final List<Cliente> coleccionClientes;
+    public final List<Cliente> coleccionClientes;
 
     private Clientes() {
         coleccionClientes = new ArrayList<>();
     }
 
-    static Clientes getInstancia() {
+    public static Clientes getInstancia() {
         if (instancia == null) {
             instancia = new Clientes();
         }

@@ -5,8 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
+import org.iesalandalus.programacion.tallermecanico.modelo.negocio.ficheros.Clientes;
 import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Controlador;
 import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Controles;
+import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Dialogos;
 
 public class LeerClienteDni extends Controlador {
     @FXML
@@ -28,6 +30,11 @@ public class LeerClienteDni extends Controlador {
     @FXML
     void aceptar() {
         esCancelado = false;
+        if(Clientes.getInstancia().get().stream().anyMatch(cliente -> cliente.getDni().equals(tfDni.getText()))){
+            Dialogos.mostrarDialogoInformacion("Información","El DNI " + tfDni.getText() + " existe en la base de datos.",getEscenario());
+        }else{
+            Dialogos.mostrarDialogoError("ERROR", "El DNI " + tfDni.getText() + " no existe en la base de datos.", getEscenario());
+        }
         getEscenario().close();
     }
 
