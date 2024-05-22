@@ -7,6 +7,7 @@ import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
 import org.iesalandalus.programacion.tallermecanico.vista.Vista;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.GestorEventos;
+import org.iesalandalus.programacion.tallermecanico.vista.grafica.controladores.InsertarCliente;
 import org.iesalandalus.programacion.tallermecanico.vista.grafica.controladores.LeerFechaFin;
 import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Controlador;
 import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Controladores;
@@ -52,6 +53,8 @@ public class VistaGrafica implements Vista {
 
     @Override
     public Cliente leerClienteDni() {
+        InsertarCliente insertarCliente = (InsertarCliente) Controladores.get("/fxml/insertarCliente.fxml", "Insertar cliente", ventanaPrincipal.getEscenario());
+        //return insertarCliente.getCliente();
         return null;
     }
 
@@ -104,7 +107,7 @@ public class VistaGrafica implements Vista {
     public LocalDate leerFechaCierre() {
         LeerFechaFin leerFechaFin = (LeerFechaFin) Controladores.get("/vistas/leer/leerFechaFin.fxml", "Leer fecha fin", ventanaPrincipal.getEscenario());
         leerFechaFin.getEscenario().showAndWait();
-        return Objects.requireNonNull(leerFechaFin.getFechaFin(), "Operación cancelada por el usuario.");
+        //return Objects.requireNonNull(leerFechaFin.getFechaFin(), "Operación cancelada por el usuario.");
         return  null;
     }
 

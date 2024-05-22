@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="266.0" prefWidth="690.0" spacing="10.0" style="-fx-background-color: #efa5ab; -fx-background-radius: 10; -fx-background-image: url('/imagenes/pantera_rosa_1.png'); -fx-border-image-width: 568;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesalandalus.programacion.tallermecanico.vista.grafica.controladores.VentanaPrincipal">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0" spacing="10.0" style="-fx-background-color: #f5cbd0; -fx-background-radius: 5;">
@@ -21,7 +20,7 @@
                   </Label>
                </children>
             </HBox>
-            <Button mnemonicParsing="false" onAction="#insertarCliente" prefWidth="100.0" style="-fx-background-color: #ffe73f; -fx-border-radius: 5; -fx-border-color: #de5e8d;" text="Insertar">
+            <Button mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: #ffe73f; -fx-border-radius: 5; -fx-border-color: #de5e8d;" text="Insertar">
                <font>
                   <Font size="20.0" />
                </font>
