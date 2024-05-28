@@ -11,7 +11,7 @@ public enum FabricaVista {
             return new VistaTexto();
         }
     },
-    GRAFICA {
+    VENTANAS {
         @Override
         public Vista crear() {
             return VistaGrafica.getInstancia();

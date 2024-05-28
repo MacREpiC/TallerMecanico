@@ -1,0 +1,31 @@
+#btAceptar{
+    -fx-background-color: #8FF084;
+}
+
+#btCancelar{
+    -fx-background-color: #F54D4D;
+}
+
+.label{
+    -fx-text-fill: black;
+}
+
+GridPane{
+    -fx-background-color: #EFA5AB;
+}
+
+HBox{
+    -fx-background-color: #EFA5AB;
+}
+
+VBox{
+    -fx-background-color: #EFA5AB;
+}
+
+.error {
+    -fx-border-color: red;
+}
+
+.bien {
+    -fx-border-color: green;
+}
