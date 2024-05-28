@@ -1,6 +1,8 @@
 package org.iesalandalus.programacion.tallermecanico;
 
 import javafx.util.Pair;
+import org.iesalandalus.programacion.tallermecanico.controlador.Controlador;
+import org.iesalandalus.programacion.tallermecanico.controlador.IControlador;
 import org.iesalandalus.programacion.tallermecanico.modelo.FabricaModelo;
 import org.iesalandalus.programacion.tallermecanico.modelo.negocio.FabricaFuenteDatos;
 import org.iesalandalus.programacion.tallermecanico.vista.FabricaVista;
